@@ -1,0 +1,36 @@
+{
+  "minVersion": "0.1",
+  "class": "DepictionTabView",
+  "tintColor": "#2cb1be",
+  "headerImage": "__HEADER_IMAGE__",
+  "tabs": [
+    {
+      "tabname": "Details",
+      "class": "DepictionStackView",
+      "views": [
+        { "class": "DepictionImageView", "url": "__ICON__", "width": 100, "height": 100, "alignment": 2, "cornerRadius": 22 },
+        { "class": "DepictionHeaderView", "title": "__NAME__", "subtitle": "Version __VERSION__" },
+        { "class": "DepictionMarkdownView", "markdown": "__DESCRIPTION__", "useRawFormat": true },
+        { "class": "DepictionSeparatorView" },
+        { "title": "Developer", "text": "__AUTHOR__",  "class": "DepictionTableTextView" },
+        { "title": "Package",   "text": "__PACKAGE__", "class": "DepictionTableTextView" },
+        { "title": "Section",   "text": "__SECTION__", "class": "DepictionTableTextView" },
+        { "title": "Depends",   "text": "__DEPENDS__", "class": "DepictionTableTextView" }
+      ]
+    },
+    {
+      "tabname": "Links",
+      "class": "DepictionStackView",
+      "views": [
+        { "title": "Twitter",  "action": "https://twitter.com/__TWITTER__",   "class": "DepictionTableButtonView", "openExternal": true },
+        { "title": "Discord",  "action": "__DISCORD__",                        "class": "DepictionTableButtonView", "openExternal": true },
+        { "title": "GitHub",   "action": "https://github.com/__GITHUB__",      "class": "DepictionTableButtonView", "openExternal": true },
+        { "title": "YouTube",  "action": "https://youtube.com/__YOUTUBE__",    "class": "DepictionTableButtonView", "openExternal": true },
+        { "title": "Reddit",   "action": "https://reddit.com/user/__REDDIT__", "class": "DepictionTableButtonView", "openExternal": true },
+        { "title": "PayPal",   "action": "https://paypal.me/__PAYPAL__",       "class": "DepictionTableButtonView", "openExternal": true },
+        { "title": "Website",  "action": "__WEBSITE__",                        "class": "DepictionTableButtonView", "openExternal": true },
+        { "title": "Email",    "action": "mailto:__EMAIL__",                   "class": "DepictionTableButtonView", "openExternal": true }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,63 @@
+{
+  "minVersion": "0.1",
+  "class": "DepictionTabView",
+  "tintColor": "#2cb1be",
+  "headerImage": "",
+  "tabs": [
+    {
+      "tabname": "Details",
+      "class": "DepictionStackView",
+      "views": [
+        {
+          "class": "DepictionSpacerView",
+          "spacing": 1
+        },
+        {
+          "class": "DepictionHeaderView",
+          "title": "wicked Rootless",
+          "subtitle": "Version 2.0.3a"
+        },
+        {
+          "class": "DepictionMarkdownView",
+          "markdown": "اداة وظيفتها : سناب بلس حفظ ورفع وتخفي في الدردشة وتغير الموقع",
+          "useRawFormat": true
+        },
+        {
+          "class": "DepictionSeparatorView"
+        },
+        {
+          "title": "Developer",
+          "text": "BekEs - بيكاس",
+          "class": "DepictionTableTextView"
+        },
+        {
+          "title": "Package",
+          "text": "dev.zero.wickedfr33",
+          "class": "DepictionTableTextView"
+        },
+        {
+          "title": "Section",
+          "text": "Tweaks",
+          "class": "DepictionTableTextView"
+        },
+        {
+          "title": "Depends",
+          "text": "mobilesubstrate",
+          "class": "DepictionTableTextView"
+        }
+      ]
+    },
+    {
+      "tabname": "Links",
+      "class": "DepictionStackView",
+      "views": [
+        {
+          "title": "Reddit",
+          "action": "https://reddit.com/user/",
+          "class": "DepictionTableButtonView",
+          "openExternal": true
+        }
+      ]
+    }
+  ]
+}
