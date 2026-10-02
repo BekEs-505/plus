@@ -1,0 +1,142 @@
+Package: com.bekes-505.github.io.filzascriptdev
+Architecture: all
+Version: 2.0
+Section: Tweaks
+Maintainer: @B6_7E
+Depends: dpkg, ldid, file, odcctools, com.bingner.plutil
+Filename: ./debs/FilzaScripts.deb
+Size: 18252
+MD5sum: 88fbc7c17390fdcb3cd9242c77147abf
+SHA1: bcc3cbcbe7bdde8f9c5af81577e849eb7883261d
+SHA256: f8df9bd3f92cf9fefa4b05fcb8d8b86ec828090e8272bf4cf0a0e5eeb384a2e3
+SHA512: b4fc3c250b91c566818a882004bce47a38650ac8bff91079070ac72d8c9574c4df38b76b933afcd2602bb378c4b06cc28e0c1b592b6f9e203d0028cb9e6754af
+Description: اداة وظيفتها : سكربتات لفيلزا وامر مهمه لفل روت و الروثليس لتحويل ادوات والكثير
+Name: Filza Scripts
+Author: BekEs - بيكاس
+
+Package: com.bekes-505.github.io.jodelrootless
+Architecture: iphoneos-arm64
+Version: 1.1.8
+Section: Tweaks
+Maintainer: @B6_7E
+Installed-Size: 172
+Depends: mobilesubstrate (>= 0.9.5000), firmware (>= 14.0)
+Filename: ./debs/JodelEMPROVEDRootless.deb
+Size: 47542
+MD5sum: 3825058318923528e7897e609b74b1c5
+SHA1: 284309d213d859e7de9b2a73b512935ccee2695a
+SHA256: efde82e85e0b1c7a44eb7c9e23feaf94bfeebaa513952ff47327c8f992f08c1a
+SHA512: ec9b7fc62885aa23d598a3057345fc86791f3bcee46eb3030e302039851c69bf9b41f84093c3f932d82f2cbaf210c5d0c96c6cf486a6a5548b4df512462949d9
+Description: اداة وظيفتها : يودل بلس و نسخ ولصق و رفع وتحميل الصور و تغيير الموقع و التخفي عند تصوير الشاشة
+Name: Jodel EMPROVED Rootless
+Author: BekEs - بيكاس
+
+Package: com.bekes-505.github.io.tgextrarootless
+Architecture: iphoneos-arm64
+Version: 1.4.0
+Section: Tweaks
+Maintainer: @B6_7E
+Installed-Size: 15894
+Filename: ./debs/TGExtraRootless.deb
+Size: 2424496
+MD5sum: b4af4546e7e222948335a0a1c2d7a9bf
+SHA1: 6fb55abb1e1a37195c854c4cf7954fb352ef20de
+SHA256: 48953428a297b7b7c0dcae00f46e36d26794005d997cb32c256c04d76c014a97
+SHA512: 38948dc9d3dc939f4a90819e3cace8943dd10811301fa152ba3615872432efa46474bd4497365e2a632fac289c95e829345bda29a99f49252a1f0495a020427e
+Description: اداة وظيفتها : تيليقرام بلس حفظ المقاطع حتى لو صاحب القناة مقفل التحميل اخفاء انك شاهدة الرساله ومميزات كثير لتفعيلها اضغط ضغطه مطوله. على اسال سوال في اعدادات التليقرام
+Name: TGExtra Rootless
+Author: BekEs - بيكاس
+Header: https://raw.githubusercontent.com/BekEs-505/UP/refs/heads/main/BekEsHader.png
+
+Package: com.bekes-505.github.io.tgextrarootless
+Architecture: iphoneos-arm64
+Version: 1.4.0
+Section: Tweaks
+Maintainer: @B6_7E
+Installed-Size: 15894
+Filename: ./debs/VSPlusUltra_1.0-98+debug_iphoneos-arm64.deb
+Size: 44418
+MD5sum: 222ae1fb9ef43978ec6d563587c8beed
+SHA1: fbb2b921c4305c57584e59d2e54c503071a1fb7e
+SHA256: 59212fab3d407865cd4959e8b8aaeb57690fc0ed60aeed538c0542379ff60ee1
+SHA512: b5924f86e1d9f963ce1e66ea8179edacd130cb501092177d86db05e052f62e62fc23365f762dba6a79247f0bb66581a12a5997e5bd7d42c211928f5ff7014c40
+Description: اداة وظيفتها : تيليقرام بلس حفظ المقاطع حتى لو صاحب القناة مقفل التحميل اخفاء انك شاهدة الرساله ومميزات كثير لتفعيلها اضغط ضغطه مطوله. على اسال سوال في اعدادات التليقرام
+Name: TGExtra Rootless
+Author: BekEs - بيكاس
+Header: https://raw.githubusercontent.com/BekEs-505/UP/refs/heads/main/BekEsHader.png
+
+Package: com.bekes-505.github.io.whatsapprevaelrotles
+Architecture: iphoneos-arm64
+Version: 10.23-1+debug
+Section: Tweaks
+Maintainer: @B6_7E
+Depends: firmware (>= 9.0), mobilesubstrate (>= 0.9.5000), preferenceloader
+Conflicts: org.thebigboss.whatsapprevaelrootless
+Filename: ./debs/WhatsappRevaelRootless.deb
+Size: 1524044
+MD5sum: e031998503f212ad2854291a95a5c4d6
+SHA1: 104ab4ab4367435d6f7ec6c263b713678b2745a1
+SHA256: 7f525257e0577ead4031f3cdc0eab0002a02a8c64187f796709f0b92c73f6928
+SHA512: 50e6374630d57a9adc9938d24d9a3cc3ac419c326b3ffb7dcd3bfbedb1514e0d613ec79f748ed6c3f39260880d1db039d6de37cd943434f50ebf6deb25d7bfeb
+Description: اداة وظيفتها : مميزات للواتس اخفاء الاتصال و اخفاء القراءة و ارسال مقطع طويل بالستوري بدون قص تعطيك الكثير من المميزات في تطبيق الواتساب وات ساب بلس
+Tag: purpose::extension
+Name: Whatsapp Revael Rootless
+Author: BekEs - بيكاس
+Sponsor: thebigboss.org <http://thebigboss.org>
+
+Package: com.bekes-505.github.io.wikplusrootless
+Architecture: iphoneos-arm64
+Version: 12.77.0.42-1+debug
+Section: Tweaks
+Maintainer: @B6_7E
+Depends: mobilesubstrate
+Filename: ./debs/WikPlusRootless.deb
+Size: 351004
+MD5sum: 75754397eea09264bfb15b6905a5757d
+SHA1: 00a721f04f1bebe3f3b872ff0282db30bf59007a
+SHA256: f79b76e6381864f48252ca2aaa781d755291696be5ebbe2a2a5253490a1256f9
+SHA512: c64620cc6dbf7e2ba5eddbc5a9906ab1f6f9c70531627d781fbde34c9a5c00b883e9bc2f33dda1ebfc3a15f24d708cdf4b2334f994cfaa5dddd84e80f6794b09
+Description: اداة وظيفتها : رفع الصور والفيديو من الالبوم توافق حتى اخر اصدار سناب شات والاصدارات السابقة وحفظ فيديو من محادثة الخاص وحفظ الصور من الخاص
+Name: WikPlus Rootless
+Author: BekEs - بيكاس
+Sponsor: wikplus store
+
+Package: com.bekes-505.github.io.wolfrootless
+Architecture: iphoneos-arm64
+Version: 2.1
+Priority: optional
+Section: Tweaks
+Maintainer: @B6_7E
+Installed-Size: 12212
+Depends: mobilesubstrate, firmware (>= 5.0)
+Filename: ./debs/WolfRootless.deb
+Size: 3901326
+MD5sum: 661b8d1b65379c9d3db8a9f1ab3ce4ca
+SHA1: c1937aa5d258cd2ce1d0d2bfdf1c61c98927c9f0
+SHA256: 4b6301ca98456ce782a2e9a98c43d3db84bbf1296ac2955a3da71c1584120ba5
+SHA512: 9561f8602e40dc4b034635802afb3d93251af0375e99ae40a45cf701b423ef8ca4487eca9d3314b873874b1b3d09d5ba3287dbdce6721295903e4718f2a3dcc5
+Description: اداة وظيفتها : فيسبوك بلس حفظ الفيديو والصور ومنع الاعلانات تعطيل انك شفت الخاص تعطيل معرفة انك تكتب، تعطيل انك ما شفت الاستوري، تعطيل التقدم التلقائي في الاستوري
+Tag: purpose::extension
+Name: Wolf Rootless
+Sponsor: thebigboss.org <http://thebigboss.org>
+Author: BekEs - بيكاس
+dev: lema
+
+Package: dev.zero.wickedfr33
+Architecture: iphoneos-arm64
+Version: 2.0.3a
+Section: Tweaks
+Maintainer: @B6_7E
+Depends: mobilesubstrate
+Conflicts: dev.zero.wicked
+Replaces:
+Filename: ./debs/wickedRootless.deb
+Size: 3909276
+MD5sum: f0bf68e9d46fca6267f1d623d216d983
+SHA1: e296e6d9c7dcce88c83c8c2b66d7e3a0bb1ad398
+SHA256: 1105ad5789c66afabe8f9dc13a87a57563a2ac96ff200d188487ae4999963e42
+SHA512: c532a6690f3dab12421f7422742241d385ac4a36550efe635fe7269737063af5cfe1d1aebe642b06c9b62d83755599a5ecb1eea361c553a6df86ab64a48f496f
+Description: اداة وظيفتها : سناب بلس حفظ ورفع وتخفي في الدردشة وتغير الموقع
+Name: wicked Rootless
+Author: BekEs - بيكاس
+
