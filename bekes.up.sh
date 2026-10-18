@@ -45,6 +45,11 @@ OUTPUT_DIR="depictions"
 ASSETS_DIR="assets"
 DEFAULT_TINT="#5AC8FA"
 
+# ── إعدادات الترجمة التلقائية ──
+AUTO_TRANSLATE=true      # true = تشغيل، false = إيقاف
+TRANSLATE_TIMEOUT=25     # ثواني قبل فشل الطلب
+TRANSLATE_DELAY=1        # تأخير بين الطلبات (ثواني) لتجنب الحظر
+
 # يوزراتك (بدون @)
 X_HANDLE="B6_7E"
 SNAPCHAT="B6_7E"
@@ -63,9 +68,9 @@ C_TIKTOK="FE2C55"     # TikTok أحمر
 #  CHECKS
 # ═══════════════════════════════════════════════════════════════
 echo -e "${C}${BOLD}▸ Checks${RESET}"
-for cmd in dpkg-deb apt-ftparchive python3 git; do
+for cmd in dpkg-deb apt-ftparchive python3 git curl; do
   if ! command -v "$cmd" >/dev/null 2>&1; then
-    echo -e "${BG_R}${W} MISSING ${RESET} ${R}$cmd${RESET} — ثبّته أولاً (apt install apt-utils dpkg python3 git)"
+    echo -e "${BG_R}${W} MISSING ${RESET} ${R}$cmd${RESET} — ثبّته أولاً (apt install apt-utils dpkg python3 git curl)"
     exit 1
   fi
 done
@@ -73,6 +78,33 @@ echo -e "  ${G}✓${RESET} كل الأدوات موجودة"
 [ -d "$DEBS_DIR" ] || { echo -e "${R}❌ لا يوجد مجلد $DEBS_DIR/${RESET}"; exit 1; }
 mkdir -p "$OUTPUT_DIR"
 echo ""
+
+# ═══════════════════════════════════════════════════════════════
+#  TRANSLATE FUNCTION
+# ═══════════════════════════════════════════════════════════════
+translate_text() {
+  local text="$1" from="$2" to="$3"
+  [ -z "$text" ] && { printf ''; return 0; }
+  [ "$from" = "$to" ] && { printf '%s' "$text"; return 0; }
+
+  curl -s --max-time "$TRANSLATE_TIMEOUT" \
+    -A "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15" \
+    -G "https://translate.googleapis.com/translate_a/single" \
+    --data-urlencode "client=gtx" \
+    --data-urlencode "sl=$from" \
+    --data-urlencode "tl=$to" \
+    --data-urlencode "dt=t" \
+    --data-urlencode "q=$text" 2>/dev/null \
+  | python3 -c "
+import sys, json
+try:
+    d = json.load(sys.stdin)
+    out = ''.join(seg[0] for seg in d[0] if seg and seg[0])
+    sys.stdout.write(out)
+except Exception:
+    pass
+" 2>/dev/null || true
+}
 
 # ═══════════════════════════════════════════════════════════════
 #  LOOP
@@ -109,14 +141,38 @@ for deb in "$DEBS_DIR"/*.deb; do
   OUT="$OUTPUT_DIR/$PKG_ID"
   mkdir -p "$OUT"
 
-  # ── الوصف عربي + إنجليزي ──
+  # ═══════════════════════════════════════════════════════════
+  #  الوصف + الترجمة التلقائية
+  # ═══════════════════════════════════════════════════════════
   DESC_AR=""; DESC_EN=""
   if [ -f "$ASSETS_DIR/descriptions/$PKG_ID.json" ]; then
     DESC_AR=$(python3 -c "import json;print(json.load(open('$ASSETS_DIR/descriptions/$PKG_ID.json')).get('ar',''))" 2>/dev/null || true)
     DESC_EN=$(python3 -c "import json;print(json.load(open('$ASSETS_DIR/descriptions/$PKG_ID.json')).get('en',''))" 2>/dev/null || true)
   fi
-  [ -z "$DESC_EN" ] && DESC_EN="$DESC"
+
+  if [ "$AUTO_TRANSLATE" = "true" ]; then
+    if [ -n "$DESC_AR" ] && [ -z "$DESC_EN" ]; then
+      echo -e "    ${Y}↻${RESET} ${DIM}Auto-translating AR → EN...${RESET}"
+      T=$(translate_text "$DESC_AR" "ar" "en")
+      if [ -n "$T" ]; then DESC_EN="$T"; else
+        DESC_EN="$DESC_AR"
+        echo -e "    ${R}✗${RESET} ${DIM}Translation failed, using AR${RESET}"
+      fi
+      sleep "$TRANSLATE_DELAY"
+    elif [ -n "$DESC_EN" ] && [ -z "$DESC_AR" ]; then
+      echo -e "    ${Y}↻${RESET} ${DIM}Auto-translating EN → AR...${RESET}"
+      T=$(translate_text "$DESC_EN" "en" "ar")
+      if [ -n "$T" ]; then DESC_AR="$T"; else
+        DESC_AR="$DESC_EN"
+        echo -e "    ${R}✗${RESET} ${DIM}Translation failed, using EN${RESET}"
+      fi
+      sleep "$TRANSLATE_DELAY"
+    fi
+  fi
+
+  # احتياط: إذا كلا الوصفين فارغان → استخدم وصف الـ deb
   [ -z "$DESC_AR" ] && DESC_AR="$DESC"
+  [ -z "$DESC_EN" ] && DESC_EN="$DESC"
 
   export PKG_ID NAME VERSION AUTHOR DESC SECTION ARCH SIZE_H HEADER_URL DEFAULT_TINT
   export REPO_BASE ASSETS_DIR DESC_AR DESC_EN
@@ -130,7 +186,7 @@ for deb in "$DEBS_DIR"/*.deb; do
   export SHOTS_LIST
 
   # ═══════════════════════════════════════════════════════════
-  #  depiction.json  (تبويبين: Details + Social Media)
+  #  depiction.json  (Details + Social Media)
   # ═══════════════════════════════════════════════════════════
   python3 > "$OUT/depiction.json" << 'PYEOF'
 import os, json
@@ -159,7 +215,6 @@ tg   = ov.get("telegram",  os.environ["TELEGRAM"])
 ig   = ov.get("instagram", os.environ["INSTAGRAM"])
 tt   = ov.get("tiktok",    os.environ["TIKTOK"])
 
-# ── TAB 1: Details ──
 details_views = []
 if screenshots:
     details_views.append({"class":"DepictionScreenshotsView","itemCornerRadius":14,
@@ -185,29 +240,28 @@ details_views += [
     {"class":"DepictionMarkdownView","markdown":"*Made with ❤️ By **B6_7E | بيكاس***"},
 ]
 
-# ── TAB 2: Social Media ──
 social_views = [
     {"class":"DepictionSubheaderView","title":"🌐  Follow & Connect","useBoldText":True},
     {"class":"DepictionMarkdownView","markdown":"اضفني على التواصل الاجتماعي تحت — Follow me on social media."},
     {"class":"DepictionSeparatorView"},
     {"class":"DepictionTableButtonView","title":"X (Twitter)",
-     "action":f"https://twitter.com/B6_7E",
+     "action":f"https://twitter.com/{x_h}",
      "icon":f"https://cdn.simpleicons.org/x/{os.environ['C_X']}",
      "iconCornerRadius":8,"chevron":True},
     {"class":"DepictionTableButtonView","title":"Snapchat",
-     "action":f"https://snapchat.com/add/B6_7E",
+     "action":f"https://snapchat.com/add/{snap}",
      "icon":f"https://cdn.simpleicons.org/snapchat/{os.environ['C_SNAPCHAT']}",
      "iconCornerRadius":8,"chevron":True},
     {"class":"DepictionTableButtonView","title":"Telegram",
-     "action":f"https://t.me/B6_7E",
+     "action":f"https://t.me/{tg}",
      "icon":f"https://cdn.simpleicons.org/telegram/{os.environ['C_TELEGRAM']}",
      "iconCornerRadius":8,"chevron":True},
     {"class":"DepictionTableButtonView","title":"Instagram",
-     "action":f"https://instagram.com/B6_7E",
+     "action":f"https://instagram.com/{ig}",
      "icon":f"https://cdn.simpleicons.org/instagram/{os.environ['C_INSTAGRAM']}",
      "iconCornerRadius":8,"chevron":True},
     {"class":"DepictionTableButtonView","title":"TikTok",
-     "action":f"https://tiktok.com/@B6_7E",
+     "action":f"https://tiktok.com/@{tt}",
      "icon":f"https://cdn.simpleicons.org/tiktok/{os.environ['C_TIKTOK']}",
      "iconCornerRadius":8,"chevron":True},
     {"class":"DepictionSeparatorView"},
@@ -284,6 +338,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,"SF Arabic","SF Pro Display","
 .social a .arrow{color:rgba(255,255,255,0.35);font-weight:400;direction:ltr}
 .cta{display:block;text-align:center;text-decoration:none;background:$DEFAULT_TINT;color:#000;font-weight:700;font-size:16px;padding:17px;border-radius:14px;margin-top:28px}
 .footer{text-align:center;color:rgba(255,255,255,0.25);font-size:12px;margin-top:44px}
+.tr-btn{background:rgba(90,200,250,0.12);border:1px solid rgba(90,200,250,0.3);color:#5AC8FA;padding:4px 10px;border-radius:8px;font-size:10px;font-weight:600;margin-left:8px;cursor:pointer;text-transform:none;letter-spacing:0}
+.tr-btn:hover{background:rgba(90,200,250,0.22)}
 </style></head><body>
 <div class="hero"><div class="hero-content"><h1>$NAME</h1><p>Version $VERSION · $SIZE_H · $SECTION</p></div></div>
 <div class="container">
@@ -296,8 +352,12 @@ body{font-family:-apple-system,BlinkMacSystemFont,"SF Arabic","SF Pro Display","
 <div class="row"><span class="label">Architecture</span><span class="value">$ARCH</span></div>
 <div class="row"><span class="label">Size</span><span class="value">$SIZE_H</span></div>
 </div></div>
-<div class="section"><h2>🇸🇦 الوصف بالعربية</h2><div class="desc">$DESC_AR</div></div>
-<div class="section"><h2>🇬🇧 English Description</h2><div class="desc en">$DESC_EN</div></div>
+<div class="section"><h2>🇸🇦 الوصف بالعربية <button class="tr-btn" onclick="trTo(this,'d-ar','ar','en')">🌐 EN</button></h2>
+  <div class="desc" id="d-ar">$DESC_AR</div>
+</div>
+<div class="section"><h2>🇬🇧 English Description <button class="tr-btn" onclick="trTo(this,'d-en','en','ar')">🌐 AR</button></h2>
+  <div class="desc en" id="d-en">$DESC_EN</div>
+</div>
 <div class="section"><h2>🌐 Social Media</h2><div class="social">
 <a href="https://twitter.com/$X_" target="_blank">
   <img src="https://cdn.simpleicons.org/x/$C_X" alt="X">
@@ -322,7 +382,33 @@ body{font-family:-apple-system,BlinkMacSystemFont,"SF Arabic","SF Pro Display","
 </div></div>
 <a class="cta" href="$SILEO_URL">Open in Sileo</a>
 <div class="footer">$NAME · $VERSION · $PKG_ID</div>
-</div></body></html>
+</div>
+<script>
+async function trTo(btn, id, from, to) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  if (el.dataset.orig) {
+    el.textContent = el.dataset.orig;
+    delete el.dataset.orig;
+    btn.textContent = (to === 'en') ? '🌐 EN' : '🌐 AR';
+    return;
+  }
+  el.dataset.orig = el.textContent;
+  el.textContent = '⏳ Translating...';
+  try {
+    const u = 'https://translate.googleapis.com/translate_a/single?client=gtx&sl=' + from + '&tl=' + to + '&dt=t&q=' + encodeURIComponent(el.dataset.orig);
+    const r = await fetch(u);
+    const j = await r.json();
+    el.textContent = j[0].map(s => s[0]).join('');
+    btn.textContent = '↩ Back';
+  } catch (e) {
+    el.textContent = el.dataset.orig;
+    delete el.dataset.orig;
+    btn.textContent = '❌ Failed';
+  }
+}
+</script>
+</body></html>
 HTMLEOF
 
   COUNT=$((COUNT+1))
