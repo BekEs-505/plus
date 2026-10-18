@@ -1,5 +1,4 @@
 Package: com.bekes-505.github.io.jodelrootless
-Header: https://raw.githubusercontent.com/BekEs-505/plus/main/header.png
 Architecture: iphoneos-arm64
 Version: 1.1.8
 Section: Tweaks
@@ -15,9 +14,10 @@ SHA512: ec9b7fc62885aa23d598a3057345fc86791f3bcee46eb3030e302039851c69bf9b41f840
 Description: اداة وظيفتها : يودل بلس و نسخ ولصق و رفع وتحميل الصور و تغيير الموقع و التخفي عند تصوير الشاشة
 Name: Jodel EMPROVED Rootless
 Author: BekEs - بيكاس
+SileoDepiction: https://bekes-505.github.io/plus/depictions/com.bekes-505.github.io.jodelrootless/depiction.json
+Depiction: https://bekes-505.github.io/plus/depictions/com.bekes-505.github.io.jodelrootless/index.html
 
 Package: com.na9.snaptweak
-Header: https://raw.githubusercontent.com/BekEs-505/plus/main/header.png
 Architecture: iphoneos-arm64
 Version: 1.0
 Section: Tweaks
@@ -90,10 +90,10 @@ Description: اداة خفيفة لتطبيق سناب شات
 Name: NA9 For Snapchat
 Author: Nasser | NoTimeToChill
 Icon: https://na9.me//public/uploads/images/site-img/ojRkdLuWbGXgZJQ.jpg
-SileoDepiction:
+SileoDepiction: https://bekes-505.github.io/plus/depictions/com.na9.snaptweak/depiction.json
+Depiction: https://bekes-505.github.io/plus/depictions/com.na9.snaptweak/index.html
 
 Package: com.na9.tiktok
-Header: https://raw.githubusercontent.com/BekEs-505/plus/main/header.png
 Architecture: iphoneos-arm64
 Version: 1.0
 Section: Tweaks
@@ -110,10 +110,10 @@ Description: An advanced tweak for TikTok by N+Store. Nasser iPA Sideload Store 
 Name: NA9 For TikTok
 Author: Nasser | NoTimeToChill
 Icon: https://raw.githubusercontent.com/nowesr1/NA9TikTok/refs/heads/main/Resources/icon.png
-SileoDepiction: https://raw.githubusercontent.com/nowesr1/NA9TikTok/main/Resources/depiction.json
+SileoDepiction: https://bekes-505.github.io/plus/depictions/com.na9.tiktok/depiction.json
+Depiction: https://bekes-505.github.io/plus/depictions/com.na9.tiktok/index.html
 
 Package: com.bekes-505.github.io.tgextrarootless
-Header: https://raw.githubusercontent.com/BekEs-505/plus/main/header.png
 Architecture: iphoneos-arm64
 Version: 1.4.0
 Section: Tweaks
@@ -129,9 +129,10 @@ Description: اداة وظيفتها : تيليقرام بلس حفظ المقا
 Name: TGExtra Rootless
 Author: BekEs - بيكاس
 Header: https://raw.githubusercontent.com/BekEs-505/UP/refs/heads/main/BekEsHader.png
+SileoDepiction: https://bekes-505.github.io/plus/depictions/com.bekes-505.github.io.tgextrarootless/depiction.json
+Depiction: https://bekes-505.github.io/plus/depictions/com.bekes-505.github.io.tgextrarootless/index.html
 
 Package: com.bekes-505.github.io.tgextrarootless
-Header: https://raw.githubusercontent.com/BekEs-505/plus/main/header.png
 Architecture: iphoneos-arm64
 Version: 1.4.0
 Section: Tweaks
@@ -147,9 +148,10 @@ Description: اداة وظيفتها : تيليقرام بلس حفظ المقا
 Name: TGExtra Rootless
 Author: BekEs - بيكاس
 Header: https://raw.githubusercontent.com/BekEs-505/UP/refs/heads/main/BekEsHader.png
+SileoDepiction: https://bekes-505.github.io/plus/depictions/com.bekes-505.github.io.tgextrarootless/depiction.json
+Depiction: https://bekes-505.github.io/plus/depictions/com.bekes-505.github.io.tgextrarootless/index.html
 
 Package: com.bekes-505.github.io.whatsapprevaelrotles
-Header: https://raw.githubusercontent.com/BekEs-505/plus/main/header.png
 Architecture: iphoneos-arm64
 Version: 10.23-1+debug
 Section: Tweaks
@@ -167,9 +169,10 @@ Tag: purpose::extension
 Name: Whatsapp Revael Rootless
 Author: BekEs - بيكاس
 Sponsor: thebigboss.org <http://thebigboss.org>
+SileoDepiction: https://bekes-505.github.io/plus/depictions/com.bekes-505.github.io.whatsapprevaelrotles/depiction.json
+Depiction: https://bekes-505.github.io/plus/depictions/com.bekes-505.github.io.whatsapprevaelrotles/index.html
 
 Package: com.bekes-505.github.io.wikplusrootless
-Header: https://raw.githubusercontent.com/BekEs-505/plus/main/header.png
 Architecture: iphoneos-arm64
 Version: 12.77.0.42-1+debug
 Section: Tweaks
@@ -185,9 +188,10 @@ Description: اداة وظيفتها : رفع الصور والفيديو من �
 Name: WikPlus Rootless
 Author: BekEs - بيكاس
 Sponsor: wikplus store
+SileoDepiction: https://bekes-505.github.io/plus/depictions/com.bekes-505.github.io.wikplusrootless/depiction.json
+Depiction: https://bekes-505.github.io/plus/depictions/com.bekes-505.github.io.wikplusrootless/index.html
 
 Package: com.bekes-505.github.io.wolfrootless
-Header: https://raw.githubusercontent.com/BekEs-505/plus/main/header.png
 Architecture: iphoneos-arm64
 Version: 2.1
 Priority: optional
@@ -207,9 +211,10 @@ Name: Wolf Rootless
 Sponsor: thebigboss.org <http://thebigboss.org>
 Author: BekEs - بيكاس
 dev: lema
+SileoDepiction: https://bekes-505.github.io/plus/depictions/com.bekes-505.github.io.wolfrootless/depiction.json
+Depiction: https://bekes-505.github.io/plus/depictions/com.bekes-505.github.io.wolfrootless/index.html
 
 Package: com.bekes-505.github.io.filzascriptdev
-Header: https://raw.githubusercontent.com/BekEs-505/plus/main/header.png
 Architecture: all
 Version: 2.0
 Section: Tweaks
@@ -224,10 +229,10 @@ SHA512: 39d4421a228f8fb43fe7120939bcb5d5ebc0c2ed21d516f537c60841349de3efedca4a56
 Description: اداة وظيفتها : سكربتات لفيلزا وامر مهمه لفل روت و الروثليس لتحويل ادوات والكثير
 Name: Filza Scripts
 Author: BekEs - بيكاس
-SileoDepiction: https://raw.githubusercontent.com/BekEs-505/plus/refs/heads/main/depictions/com.bekes-505.github.io.filzascriptdev/depiction.json
+SileoDepiction: https://bekes-505.github.io/plus/depictions/com.bekes-505.github.io.filzascriptdev/depiction.json
+Depiction: https://bekes-505.github.io/plus/depictions/com.bekes-505.github.io.filzascriptdev/index.html
 
 Package: dev.zero.wickedfr33
-Header: https://raw.githubusercontent.com/BekEs-505/plus/main/header.png
 Architecture: iphoneos-arm64
 Version: 2.0.3a
 Section: Tweaks
@@ -244,4 +249,5 @@ SHA512: c532a6690f3dab12421f7422742241d385ac4a36550efe635fe7269737063af5cfe1d1ae
 Description: اداة وظيفتها : سناب بلس حفظ ورفع وتخفي في الدردشة وتغير الموقع
 Name: wicked Rootless
 Author: BekEs - بيكاس
-
+SileoDepiction: https://bekes-505.github.io/plus/depictions/dev.zero.wickedfr33/depiction.json
+Depiction: https://bekes-505.github.io/plus/depictions/dev.zero.wickedfr33/index.html

@@ -1,63 +1,71 @@
 {
   "minVersion": "0.1",
   "class": "DepictionTabView",
-  "tintColor": "#2cb1be",
-  "headerImage": "",
+  "tintColor": "#5AC8FA",
   "tabs": [
     {
       "tabname": "Details",
       "class": "DepictionStackView",
       "views": [
         {
-          "class": "DepictionSpacerView",
-          "spacing": 1
-        },
-        {
           "class": "DepictionHeaderView",
           "title": "TGExtra Rootless",
-          "subtitle": "Version 1.4.0"
+          "useBoldText": true
         },
         {
-          "class": "DepictionMarkdownView",
-          "markdown": "اداة وظيفتها : تيليقرام بلس حفظ المقاطع حتى لو صاحب القناة مقفل التحميل اخفاء انك شاهدة الرساله ومميزات كثير لتفعيلها اضغط ضغطه مطوله. على اسال سوال في اعدادات التليقرام",
-          "useRawFormat": true
+          "class": "DepictionSubheaderView",
+          "title": "Version 1.4.0 • 2.3 MB",
+          "useBoldText": false
         },
         {
           "class": "DepictionSeparatorView"
         },
         {
-          "title": "Developer",
-          "text": "BekEs - بيكاس",
-          "class": "DepictionTableTextView"
-        },
-        {
+          "class": "DepictionTableTextView",
           "title": "Package",
-          "text": "com.bekes-505.github.io.tgextrarootless",
-          "class": "DepictionTableTextView"
+          "text": "com.bekes-505.github.io.tgextrarootless"
         },
         {
+          "class": "DepictionTableTextView",
+          "title": "Version",
+          "text": "1.4.0"
+        },
+        {
+          "class": "DepictionTableTextView",
+          "title": "Author",
+          "text": "BekEs - بيكاس"
+        },
+        {
+          "class": "DepictionTableTextView",
           "title": "Section",
-          "text": "Tweaks",
-          "class": "DepictionTableTextView"
+          "text": "Tweaks"
         },
         {
-          "title": "Depends",
-          "text": "",
-          "class": "DepictionTableTextView"
-        }
-      ]
-    },
-    {
-      "tabname": "Links",
-      "class": "DepictionStackView",
-      "views": [
+          "class": "DepictionTableTextView",
+          "title": "Architecture",
+          "text": "iphoneos-arm64"
+        },
         {
-          "title": "Reddit",
-          "action": "https://reddit.com/user/",
-          "class": "DepictionTableButtonView",
-          "openExternal": true
+          "class": "DepictionTableTextView",
+          "title": "Size",
+          "text": "2.3 MB"
+        },
+        {
+          "class": "DepictionSeparatorView"
+        },
+        {
+          "class": "DepictionMarkdownView",
+          "markdown": "### Description\n\nاداة وظيفتها : تيليقرام بلس حفظ المقاطع حتى لو صاحب القناة مقفل التحميل اخفاء انك شاهدة الرساله ومميزات كثير لتفعيلها اضغط ضغطه مطوله. على اسال سوال في اعدادات التليقرام"
+        },
+        {
+          "class": "DepictionSeparatorView"
+        },
+        {
+          "class": "DepictionMarkdownView",
+          "markdown": "### Connect\n\n<div align=\"center\"><a href=\"https://twitter.com/BekEs-505\"><img src=\"https://cdn.simpleicons.org/x/1DA1F2\" width=\"42\" height=\"42\" alt=\"X\" style=\"margin:6px;\"/></a><a href=\"https://discord.gg/yourserver\"><img src=\"https://cdn.simpleicons.org/discord/5865F2\" width=\"42\" height=\"42\" alt=\"Discord\" style=\"margin:6px;\"/></a><a href=\"https://github.com/BekEs-505\"><img src=\"https://cdn.simpleicons.org/github/FFFFFF\" width=\"42\" height=\"42\" alt=\"GitHub\" style=\"margin:6px;\"/></a><a href=\"https://youtube.com/@yourchannel\"><img src=\"https://cdn.simpleicons.org/youtube/FF0000\" width=\"42\" height=\"42\" alt=\"YouTube\" style=\"margin:6px;\"/></a><a href=\"https://t.me/yourchannel\"><img src=\"https://cdn.simpleicons.org/telegram/26A5E4\" width=\"42\" height=\"42\" alt=\"Telegram\" style=\"margin:6px;\"/></a><a href=\"https://reddit.com/user/BekEs-505\"><img src=\"https://cdn.simpleicons.org/reddit/FF4500\" width=\"42\" height=\"42\" alt=\"Reddit\" style=\"margin:6px;\"/></a><a href=\"https://bekes-505.github.io/plus\"><img src=\"https://cdn.simpleicons.org/safari/5AC8FA\" width=\"42\" height=\"42\" alt=\"Website\" style=\"margin:6px;\"/></a></div>"
         }
       ]
     }
-  ]
+  ],
+  "headerImage": "https://raw.githubusercontent.com/BekEs-505/plus/main/header.png"
 }

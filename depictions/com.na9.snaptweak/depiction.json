@@ -1,0 +1,71 @@
+{
+  "minVersion": "0.1",
+  "class": "DepictionTabView",
+  "tintColor": "#5AC8FA",
+  "tabs": [
+    {
+      "tabname": "Details",
+      "class": "DepictionStackView",
+      "views": [
+        {
+          "class": "DepictionHeaderView",
+          "title": "NA9 For Snapchat",
+          "useBoldText": true
+        },
+        {
+          "class": "DepictionSubheaderView",
+          "title": "Version 1.0 • 26 KB",
+          "useBoldText": false
+        },
+        {
+          "class": "DepictionSeparatorView"
+        },
+        {
+          "class": "DepictionTableTextView",
+          "title": "Package",
+          "text": "com.na9.snaptweak"
+        },
+        {
+          "class": "DepictionTableTextView",
+          "title": "Version",
+          "text": "1.0"
+        },
+        {
+          "class": "DepictionTableTextView",
+          "title": "Author",
+          "text": "Nasser | NoTimeToChill"
+        },
+        {
+          "class": "DepictionTableTextView",
+          "title": "Section",
+          "text": "Tweaks"
+        },
+        {
+          "class": "DepictionTableTextView",
+          "title": "Architecture",
+          "text": "iphoneos-arm64"
+        },
+        {
+          "class": "DepictionTableTextView",
+          "title": "Size",
+          "text": "26 KB"
+        },
+        {
+          "class": "DepictionSeparatorView"
+        },
+        {
+          "class": "DepictionMarkdownView",
+          "markdown": "### Description\n\nاداة خفيفة لتطبيق سناب شات\nالمميزات: (رفع الوسائط / حفظ الوسائط)\nA lightweight Snapchat Tweak\nFeatures: (Upload Media / Save Media)\n.\n═══════════════════════════════════════\nخطوات التثبيت:\n═══════════════════════════════════════\n.\nقبل تثبيت الأداة قم بتسجيل الخروج من حسابك في تطبيق سناب شات أولاً ثم ثبت الأداة.\n.\n١- تثبيت اداة Shadow من سورس:\n   https://ios.jjolano.me/\n.\n٢- تثبيت اداة Choicy.\n.\n٣- التوجه لإعدادات Shadow ثم التطبيقات - سناب شات -\n   تشغيل جميع الخيارات بالصفحة مع اختيار مكتبة الخطافات fishhook.\n.\n٤- التوجه الى اداة Choicy - التطبيقات - سناب شات -\n   اعداد مخصص للأدوات.\n   ضع الخيار على قائمة سماح وتأكد من اغلاق جميع الأدوات\n   وتشغيل اداة NA9 واداة Shadow فقط.\n.\n٥- افتح تطبيق سناب شات وقم بتسجيل الدخول.\n.\nاعدادات الأداة ضغطة مطولة بإصبعين على شاشة الكاميرا.\n(تستطيع سحب الأزرار ووضعها بالمكان الذي يناسبك)\n.\n⚠ استعملها على مسؤوليتك الخاصة.\n.\n═══════════════════════════════════════\nInstallation Steps:\n═══════════════════════════════════════\n.\nBefore installing the tweak, sign out of your Snapchat account first,\nthen install the tweak.\n.\n1- Install Shadow tweak from source:\n   https://ios.jjolano.me/\n.\n2- Install Choicy tweak.\n.\n3- Go to Shadow settings - Applications - Snapchat -\n   Enable all options on the page and select fishhook as the hooking library.\n.\n4- Go to Choicy - Applications - Snapchat -\n   Custom tweak configuration.\n   Set the option to Allow list and make sure all tweaks are disabled,\n   then enable only NA9 and Shadow.\n.\n5- Open Snapchat and sign in.\n.\nTweak settings long-press with two fingers on Camera Screen.\n(You can drag the buttons and place them wherever you like)\n.\n⚠ Use at your own risk."
+        },
+        {
+          "class": "DepictionSeparatorView"
+        },
+        {
+          "class": "DepictionMarkdownView",
+          "markdown": "### Connect\n\n<div align=\"center\"><a href=\"https://twitter.com/BekEs-505\"><img src=\"https://cdn.simpleicons.org/x/1DA1F2\" width=\"42\" height=\"42\" alt=\"X\" style=\"margin:6px;\"/></a><a href=\"https://discord.gg/yourserver\"><img src=\"https://cdn.simpleicons.org/discord/5865F2\" width=\"42\" height=\"42\" alt=\"Discord\" style=\"margin:6px;\"/></a><a href=\"https://github.com/BekEs-505\"><img src=\"https://cdn.simpleicons.org/github/FFFFFF\" width=\"42\" height=\"42\" alt=\"GitHub\" style=\"margin:6px;\"/></a><a href=\"https://youtube.com/@yourchannel\"><img src=\"https://cdn.simpleicons.org/youtube/FF0000\" width=\"42\" height=\"42\" alt=\"YouTube\" style=\"margin:6px;\"/></a><a href=\"https://t.me/yourchannel\"><img src=\"https://cdn.simpleicons.org/telegram/26A5E4\" width=\"42\" height=\"42\" alt=\"Telegram\" style=\"margin:6px;\"/></a><a href=\"https://reddit.com/user/BekEs-505\"><img src=\"https://cdn.simpleicons.org/reddit/FF4500\" width=\"42\" height=\"42\" alt=\"Reddit\" style=\"margin:6px;\"/></a><a href=\"https://bekes-505.github.io/plus\"><img src=\"https://cdn.simpleicons.org/safari/5AC8FA\" width=\"42\" height=\"42\" alt=\"Website\" style=\"margin:6px;\"/></a></div>"
+        }
+      ]
+    }
+  ],
+  "headerImage": "https://raw.githubusercontent.com/BekEs-505/plus/main/header.png"
+}
