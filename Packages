@@ -1,4 +1,5 @@
 Package: com.bekes-505.github.io.jodelrootless
+Header: https://raw.githubusercontent.com/BekEs-505/plus/main/header.png
 Architecture: iphoneos-arm64
 Version: 1.1.8
 Section: Tweaks
@@ -16,6 +17,7 @@ Name: Jodel EMPROVED Rootless
 Author: BekEs - بيكاس
 
 Package: com.na9.tiktok
+Header: https://raw.githubusercontent.com/BekEs-505/plus/main/header.png
 Architecture: iphoneos-arm64
 Version: 1.0
 Section: Tweaks
@@ -35,6 +37,7 @@ Icon: https://raw.githubusercontent.com/nowesr1/NA9TikTok/refs/heads/main/Resour
 SileoDepiction: https://raw.githubusercontent.com/nowesr1/NA9TikTok/main/Resources/depiction.json
 
 Package: com.bekes-505.github.io.tgextrarootless
+Header: https://raw.githubusercontent.com/BekEs-505/plus/main/header.png
 Architecture: iphoneos-arm64
 Version: 1.4.0
 Section: Tweaks
@@ -52,6 +55,7 @@ Author: BekEs - بيكاس
 Header: https://raw.githubusercontent.com/BekEs-505/UP/refs/heads/main/BekEsHader.png
 
 Package: com.bekes-505.github.io.tgextrarootless
+Header: https://raw.githubusercontent.com/BekEs-505/plus/main/header.png
 Architecture: iphoneos-arm64
 Version: 1.4.0
 Section: Tweaks
@@ -69,6 +73,7 @@ Author: BekEs - بيكاس
 Header: https://raw.githubusercontent.com/BekEs-505/UP/refs/heads/main/BekEsHader.png
 
 Package: com.bekes-505.github.io.whatsapprevaelrotles
+Header: https://raw.githubusercontent.com/BekEs-505/plus/main/header.png
 Architecture: iphoneos-arm64
 Version: 10.23-1+debug
 Section: Tweaks
@@ -88,6 +93,7 @@ Author: BekEs - بيكاس
 Sponsor: thebigboss.org <http://thebigboss.org>
 
 Package: com.bekes-505.github.io.wikplusrootless
+Header: https://raw.githubusercontent.com/BekEs-505/plus/main/header.png
 Architecture: iphoneos-arm64
 Version: 12.77.0.42-1+debug
 Section: Tweaks
@@ -105,6 +111,7 @@ Author: BekEs - بيكاس
 Sponsor: wikplus store
 
 Package: com.bekes-505.github.io.wolfrootless
+Header: https://raw.githubusercontent.com/BekEs-505/plus/main/header.png
 Architecture: iphoneos-arm64
 Version: 2.1
 Priority: optional
@@ -126,6 +133,7 @@ Author: BekEs - بيكاس
 dev: lema
 
 Package: com.bekes-505.github.io.filzascriptdev
+Header: https://raw.githubusercontent.com/BekEs-505/plus/main/header.png
 Architecture: all
 Version: 2.0
 Section: Tweaks
@@ -143,6 +151,7 @@ Author: BekEs - بيكاس
 SileoDepiction: https://raw.githubusercontent.com/BekEs-505/plus/refs/heads/main/depictions/com.bekes-505.github.io.filzascriptdev/depiction.json
 
 Package: dev.zero.wickedfr33
+Header: https://raw.githubusercontent.com/BekEs-505/plus/main/header.png
 Architecture: iphoneos-arm64
 Version: 2.0.3a
 Section: Tweaks
