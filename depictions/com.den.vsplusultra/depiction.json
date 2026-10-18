@@ -61,8 +61,65 @@
           "class": "DepictionSeparatorView"
         },
         {
-          "class": "DepictionMarkdownView",
-          "markdown": "### Connect\n\n<div align=\"center\"><a href=\"https://twitter.com/BekEs-505\"><img src=\"https://cdn.simpleicons.org/x/1DA1F2\" width=\"42\" height=\"42\" alt=\"X\" style=\"margin:6px;\"/></a><a href=\"https://discord.gg/yourserver\"><img src=\"https://cdn.simpleicons.org/discord/5865F2\" width=\"42\" height=\"42\" alt=\"Discord\" style=\"margin:6px;\"/></a><a href=\"https://github.com/BekEs-505\"><img src=\"https://cdn.simpleicons.org/github/FFFFFF\" width=\"42\" height=\"42\" alt=\"GitHub\" style=\"margin:6px;\"/></a><a href=\"https://youtube.com/@yourchannel\"><img src=\"https://cdn.simpleicons.org/youtube/FF0000\" width=\"42\" height=\"42\" alt=\"YouTube\" style=\"margin:6px;\"/></a><a href=\"https://t.me/yourchannel\"><img src=\"https://cdn.simpleicons.org/telegram/26A5E4\" width=\"42\" height=\"42\" alt=\"Telegram\" style=\"margin:6px;\"/></a><a href=\"https://reddit.com/user/BekEs-505\"><img src=\"https://cdn.simpleicons.org/reddit/FF4500\" width=\"42\" height=\"42\" alt=\"Reddit\" style=\"margin:6px;\"/></a><a href=\"https://bekes-505.github.io/plus\"><img src=\"https://cdn.simpleicons.org/safari/5AC8FA\" width=\"42\" height=\"42\" alt=\"Website\" style=\"margin:6px;\"/></a></div>"
+          "class": "DepictionSubheaderView",
+          "title": "Connect",
+          "useBoldText": true
+        },
+        {
+          "class": "DepictionButtonView",
+          "action": "https://twitter.com/BekEs-505",
+          "title": "X (Twitter)",
+          "subtitle": "@BekEs-505",
+          "icon": "https://cdn.simpleicons.org/x/1DA1F2",
+          "iconCornerRadius": 10
+        },
+        {
+          "class": "DepictionButtonView",
+          "action": "https://discord.gg/yourserver",
+          "title": "Discord",
+          "subtitle": "Join the server",
+          "icon": "https://cdn.simpleicons.org/discord/5865F2",
+          "iconCornerRadius": 10
+        },
+        {
+          "class": "DepictionButtonView",
+          "action": "https://github.com/BekEs-505",
+          "title": "GitHub",
+          "subtitle": "github.com/BekEs-505",
+          "icon": "https://cdn.simpleicons.org/github/FFFFFF",
+          "iconCornerRadius": 10
+        },
+        {
+          "class": "DepictionButtonView",
+          "action": "https://youtube.com/@yourchannel",
+          "title": "YouTube",
+          "subtitle": "Watch videos",
+          "icon": "https://cdn.simpleicons.org/youtube/FF0000",
+          "iconCornerRadius": 10
+        },
+        {
+          "class": "DepictionButtonView",
+          "action": "https://t.me/yourchannel",
+          "title": "Telegram",
+          "subtitle": "t.me/yourchannel",
+          "icon": "https://cdn.simpleicons.org/telegram/26A5E4",
+          "iconCornerRadius": 10
+        },
+        {
+          "class": "DepictionButtonView",
+          "action": "https://reddit.com/user/BekEs-505",
+          "title": "Reddit",
+          "subtitle": "u/BekEs-505",
+          "icon": "https://cdn.simpleicons.org/reddit/FF4500",
+          "iconCornerRadius": 10
+        },
+        {
+          "class": "DepictionButtonView",
+          "action": "https://bekes-505.github.io/plus",
+          "title": "Website",
+          "subtitle": "bekes-505.github.io/plus",
+          "icon": "https://cdn.simpleicons.org/safari/5AC8FA",
+          "iconCornerRadius": 10
         }
       ]
     }

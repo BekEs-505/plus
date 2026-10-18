@@ -145,18 +145,57 @@ tg = ov.get("telegram", os.environ["TELEGRAM"])
 rd = ov.get("reddit",   os.environ["REDDIT"])
 wb = ov.get("website",  os.environ["WEBSITE"])
 
-def ic(s,c,u,l):
-    return f'<a href="{u}"><img src="https://cdn.simpleicons.org/{s}/{c}" width="42" height="42" alt="{l}" style="margin:6px;"/></a>'
+# ── أزرار التواصل الأصلية (DepictionButtonView) ──
+social_buttons = [
+    {"class": "DepictionButtonView",
+     "action": f"https://twitter.com/{tw}",
+     "title": "X (Twitter)",
+     "subtitle": f"@{tw}",
+     "icon": f"https://cdn.simpleicons.org/x/{os.environ['C_X']}",
+     "iconCornerRadius": 10},
 
-social = '<div align="center">' + "".join([
-    ic("x",        os.environ["C_X"],        f"https://twitter.com/{tw}", "X"),
-    ic("discord",  os.environ["C_DISCORD"],  dc, "Discord"),
-    ic("github",   os.environ["C_GITHUB"],   f"https://github.com/{gh}", "GitHub"),
-    ic("youtube",  os.environ["C_YOUTUBE"],  yt, "YouTube"),
-    ic("telegram", os.environ["C_TELEGRAM"], f"https://t.me/{tg}", "Telegram"),
-    ic("reddit",   os.environ["C_REDDIT"],   f"https://reddit.com/user/{rd}", "Reddit"),
-    ic("safari",   os.environ["C_WEBSITE"],  wb, "Website"),
-]) + '</div>'
+    {"class": "DepictionButtonView",
+     "action": dc,
+     "title": "Discord",
+     "subtitle": "Join the server",
+     "icon": f"https://cdn.simpleicons.org/discord/{os.environ['C_DISCORD']}",
+     "iconCornerRadius": 10},
+
+    {"class": "DepictionButtonView",
+     "action": f"https://github.com/{gh}",
+     "title": "GitHub",
+     "subtitle": f"github.com/{gh}",
+     "icon": f"https://cdn.simpleicons.org/github/{os.environ['C_GITHUB']}",
+     "iconCornerRadius": 10},
+
+    {"class": "DepictionButtonView",
+     "action": yt,
+     "title": "YouTube",
+     "subtitle": "Watch videos",
+     "icon": f"https://cdn.simpleicons.org/youtube/{os.environ['C_YOUTUBE']}",
+     "iconCornerRadius": 10},
+
+    {"class": "DepictionButtonView",
+     "action": f"https://t.me/{tg}",
+     "title": "Telegram",
+     "subtitle": f"t.me/{tg}",
+     "icon": f"https://cdn.simpleicons.org/telegram/{os.environ['C_TELEGRAM']}",
+     "iconCornerRadius": 10},
+
+    {"class": "DepictionButtonView",
+     "action": f"https://reddit.com/user/{rd}",
+     "title": "Reddit",
+     "subtitle": f"u/{rd}",
+     "icon": f"https://cdn.simpleicons.org/reddit/{os.environ['C_REDDIT']}",
+     "iconCornerRadius": 10},
+
+    {"class": "DepictionButtonView",
+     "action": wb,
+     "title": "Website",
+     "subtitle": wb.replace("https://","").replace("http://",""),
+     "icon": f"https://cdn.simpleicons.org/safari/{os.environ['C_WEBSITE']}",
+     "iconCornerRadius": 10},
+]
 
 views = []
 if screenshots:
@@ -176,8 +215,10 @@ views += [
     {"class":"DepictionSeparatorView"},
     {"class":"DepictionMarkdownView","markdown":"### Description\n\n"+desc},
     {"class":"DepictionSeparatorView"},
-    {"class":"DepictionMarkdownView","markdown":"### Connect\n\n"+social},
+    {"class":"DepictionSubheaderView","title":"Connect","useBoldText":True},
 ]
+
+views += social_buttons
 
 dep = {"minVersion":"0.1","class":"DepictionTabView","tintColor":tint,
        "tabs":[{"tabname":"Details","class":"DepictionStackView","views":views}]}
