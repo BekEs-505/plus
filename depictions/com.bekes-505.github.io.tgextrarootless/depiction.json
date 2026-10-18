@@ -14,7 +14,7 @@
         },
         {
           "class": "DepictionSubheaderView",
-          "title": "Version 1.4.0 • 2.3 MB",
+          "title": "Version 1.4.0  •  2.3 MB  •  Tweaks",
           "useBoldText": false
         },
         {
@@ -54,16 +54,50 @@
           "class": "DepictionSeparatorView"
         },
         {
+          "class": "DepictionSubheaderView",
+          "title": "🇸🇦  الوصف بالعربية",
+          "useBoldText": true
+        },
+        {
           "class": "DepictionMarkdownView",
-          "markdown": "### Description\n\nاداة وظيفتها : تيليقرام بلس حفظ المقاطع حتى لو صاحب القناة مقفل التحميل اخفاء انك شاهدة الرساله ومميزات كثير لتفعيلها اضغط ضغطه مطوله. على اسال سوال في اعدادات التليقرام"
+          "markdown": "اداة وظيفتها : تيليقرام بلس حفظ المقاطع حتى لو صاحب القناة مقفل التحميل اخفاء انك شاهدة الرساله ومميزات كثير لتفعيلها اضغط ضغطه مطوله. على اسال سوال في اعدادات التليقرام"
         },
         {
           "class": "DepictionSeparatorView"
         },
         {
           "class": "DepictionSubheaderView",
-          "title": "Connect",
+          "title": "🇬🇧  English Description",
           "useBoldText": true
+        },
+        {
+          "class": "DepictionMarkdownView",
+          "markdown": "اداة وظيفتها : تيليقرام بلس حفظ المقاطع حتى لو صاحب القناة مقفل التحميل اخفاء انك شاهدة الرساله ومميزات كثير لتفعيلها اضغط ضغطه مطوله. على اسال سوال في اعدادات التليقرام"
+        },
+        {
+          "class": "DepictionSeparatorView"
+        },
+        {
+          "class": "DepictionMarkdownView",
+          "markdown": "*Made with ❤️ by **B6_7E | بيكاس***"
+        }
+      ]
+    },
+    {
+      "tabname": "Social Media",
+      "class": "DepictionStackView",
+      "views": [
+        {
+          "class": "DepictionSubheaderView",
+          "title": "🌐  Follow & Connect",
+          "useBoldText": true
+        },
+        {
+          "class": "DepictionMarkdownView",
+          "markdown": "تواصل معي على منصات التواصل الاجتماعي — Follow me on social media."
+        },
+        {
+          "class": "DepictionSeparatorView"
         },
         {
           "class": "DepictionTableButtonView",
@@ -104,6 +138,13 @@
           "icon": "https://cdn.simpleicons.org/tiktok/FE2C55",
           "iconCornerRadius": 8,
           "chevron": true
+        },
+        {
+          "class": "DepictionSeparatorView"
+        },
+        {
+          "class": "DepictionMarkdownView",
+          "markdown": "*شكراً لدعمك ❤️  —  Thanks for your support*"
         }
       ]
     }

@@ -14,7 +14,7 @@
         },
         {
           "class": "DepictionSubheaderView",
-          "title": "Version 1.0-98+debug • 43 KB",
+          "title": "Version 1.0-98+debug  •  43 KB  •  Tweaks",
           "useBoldText": false
         },
         {
@@ -54,16 +54,50 @@
           "class": "DepictionSeparatorView"
         },
         {
+          "class": "DepictionSubheaderView",
+          "title": "🇸🇦  الوصف بالعربية",
+          "useBoldText": true
+        },
+        {
           "class": "DepictionMarkdownView",
-          "markdown": "### Description\n\nMake Videostar better"
+          "markdown": "Make Videostar better"
         },
         {
           "class": "DepictionSeparatorView"
         },
         {
           "class": "DepictionSubheaderView",
-          "title": "Connect",
+          "title": "🇬🇧  English Description",
           "useBoldText": true
+        },
+        {
+          "class": "DepictionMarkdownView",
+          "markdown": "Make Videostar better"
+        },
+        {
+          "class": "DepictionSeparatorView"
+        },
+        {
+          "class": "DepictionMarkdownView",
+          "markdown": "*Made with ❤️ by **B6_7E | بيكاس***"
+        }
+      ]
+    },
+    {
+      "tabname": "Social Media",
+      "class": "DepictionStackView",
+      "views": [
+        {
+          "class": "DepictionSubheaderView",
+          "title": "🌐  Follow & Connect",
+          "useBoldText": true
+        },
+        {
+          "class": "DepictionMarkdownView",
+          "markdown": "تواصل معي على منصات التواصل الاجتماعي — Follow me on social media."
+        },
+        {
+          "class": "DepictionSeparatorView"
         },
         {
           "class": "DepictionTableButtonView",
@@ -104,6 +138,13 @@
           "icon": "https://cdn.simpleicons.org/tiktok/FE2C55",
           "iconCornerRadius": 8,
           "chevron": true
+        },
+        {
+          "class": "DepictionSeparatorView"
+        },
+        {
+          "class": "DepictionMarkdownView",
+          "markdown": "*شكراً لدعمك ❤️  —  Thanks for your support*"
         }
       ]
     }
