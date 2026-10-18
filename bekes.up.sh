@@ -47,16 +47,19 @@ OUTPUT_DIR="depictions"
 ASSETS_DIR="assets"
 DEFAULT_TINT="#5AC8FA"
 
-TWITTER="BekEs-505"
-DISCORD="https://discord.gg/yourserver"
-GITHUB="BekEs-505"
-YOUTUBE="https://youtube.com/@yourchannel"
-TELEGRAM="yourchannel"
-REDDIT="BekEs-505"
-WEBSITE="https://bekes-505.github.io/plus"
+# ── السوشيال ميديا (ضع يوزرك بدون @) ──
+X_HANDLE="BekEs-505"
+SNAPCHAT="BekEs-505"
+TELEGRAM="BekEs-505"
+INSTAGRAM="BekEs-505"
+TIKTOK="BekEs-505"
 
-C_X="1DA1F2"; C_DISCORD="5865F2"; C_GITHUB="FFFFFF"
-C_YOUTUBE="FF0000"; C_TELEGRAM="26A5E4"; C_REDDIT="FF4500"; C_WEBSITE="5AC8FA"
+# ── الألوان الرسمية لكل منصة ──
+C_X="1DA1F2"          # X / Twitter أزرق
+C_SNAPCHAT="FFCC00"   # Snapchat أصفر
+C_TELEGRAM="26A5E4"   # Telegram أزرق فاتح
+C_INSTAGRAM="E4405F"  # Instagram وردي/أحمر
+C_TIKTOK="FE2C55"     # TikTok أحمر
 
 # ═══════════════════════════════════════════════════════════════
 #  CHECKS
@@ -109,8 +112,9 @@ for deb in "$DEBS_DIR"/*.deb; do
   mkdir -p "$OUT"
 
   export PKG_ID NAME VERSION AUTHOR DESC SECTION ARCH SIZE_H HEADER_URL DEFAULT_TINT
-  export REPO_BASE TWITTER DISCORD GITHUB YOUTUBE TELEGRAM REDDIT WEBSITE
-  export C_X C_DISCORD C_GITHUB C_YOUTUBE C_TELEGRAM C_REDDIT C_WEBSITE ASSETS_DIR
+  export REPO_BASE ASSETS_DIR
+  export X_HANDLE SNAPCHAT TELEGRAM INSTAGRAM TIKTOK
+  export C_X C_SNAPCHAT C_TELEGRAM C_INSTAGRAM C_TIKTOK
 
   SHOTS_LIST=""
   for f in "${SHOTS_ARR[@]:-}"; do
@@ -118,9 +122,12 @@ for deb in "$DEBS_DIR"/*.deb; do
   done
   export SHOTS_LIST
 
-  # ── depiction.json ──
+  # ═══════════════════════════════════════════════════════════
+  #  depiction.json  (Native Sileo)
+  # ═══════════════════════════════════════════════════════════
   python3 > "$OUT/depiction.json" << 'PYEOF'
 import os, json
+
 pkg, name, version = os.environ["PKG_ID"], os.environ["NAME"], os.environ["VERSION"]
 author, desc = os.environ["AUTHOR"], os.environ["DESC"].replace("\n ", "\n").strip()
 section, arch, size_h = os.environ["SECTION"], os.environ["ARCH"], os.environ["SIZE_H"]
@@ -131,70 +138,55 @@ shot_urls = [l.strip() for l in os.environ.get("SHOTS_LIST","").split("\n") if l
 screenshots = [{"url":u,"fullSizeURL":u,"accessibilityText":f"Screenshot {i+1}"}
                for i,u in enumerate(shot_urls)]
 
+# ── إمكانية تخصيص لكل تويك من assets/social/<pkg>.json ──
 ov = {}
 p = os.path.join(assets_dir, "social", f"{pkg}.json")
 if os.path.isfile(p):
     try: ov = json.load(open(p, encoding="utf-8"))
     except Exception: pass
 
-tw = ov.get("twitter",  os.environ["TWITTER"])
-dc = ov.get("discord",  os.environ["DISCORD"])
-gh = ov.get("github",   os.environ["GITHUB"])
-yt = ov.get("youtube",  os.environ["YOUTUBE"])
-tg = ov.get("telegram", os.environ["TELEGRAM"])
-rd = ov.get("reddit",   os.environ["REDDIT"])
-wb = ov.get("website",  os.environ["WEBSITE"])
+x_h   = ov.get("x",         os.environ["X_HANDLE"])
+snap  = ov.get("snapchat",  os.environ["SNAPCHAT"])
+tg    = ov.get("telegram",  os.environ["TELEGRAM"])
+ig    = ov.get("instagram", os.environ["INSTAGRAM"])
+tt    = ov.get("tiktok",    os.environ["TIKTOK"])
 
-# ── أزرار التواصل الأصلية (DepictionButtonView) ──
+# ── DepictionTableButtonView: صف جدول احترافي (نص واضح + أيقونة ملونة + سهم) ──
 social_buttons = [
-    {"class": "DepictionButtonView",
-     "action": f"https://twitter.com/{tw}",
+    {"class": "DepictionTableButtonView",
      "title": "X (Twitter)",
-     "subtitle": f"@{tw}",
+     "action": f"https://twitter.com/{x_h}",
      "icon": f"https://cdn.simpleicons.org/x/{os.environ['C_X']}",
-     "iconCornerRadius": 10},
+     "iconCornerRadius": 8,
+     "chevron": True},
 
-    {"class": "DepictionButtonView",
-     "action": dc,
-     "title": "Discord",
-     "subtitle": "Join the server",
-     "icon": f"https://cdn.simpleicons.org/discord/{os.environ['C_DISCORD']}",
-     "iconCornerRadius": 10},
+    {"class": "DepictionTableButtonView",
+     "title": "Snapchat",
+     "action": f"https://snapchat.com/add/{snap}",
+     "icon": f"https://cdn.simpleicons.org/snapchat/{os.environ['C_SNAPCHAT']}",
+     "iconCornerRadius": 8,
+     "chevron": True},
 
-    {"class": "DepictionButtonView",
-     "action": f"https://github.com/{gh}",
-     "title": "GitHub",
-     "subtitle": f"github.com/{gh}",
-     "icon": f"https://cdn.simpleicons.org/github/{os.environ['C_GITHUB']}",
-     "iconCornerRadius": 10},
-
-    {"class": "DepictionButtonView",
-     "action": yt,
-     "title": "YouTube",
-     "subtitle": "Watch videos",
-     "icon": f"https://cdn.simpleicons.org/youtube/{os.environ['C_YOUTUBE']}",
-     "iconCornerRadius": 10},
-
-    {"class": "DepictionButtonView",
-     "action": f"https://t.me/{tg}",
+    {"class": "DepictionTableButtonView",
      "title": "Telegram",
-     "subtitle": f"t.me/{tg}",
+     "action": f"https://t.me/{tg}",
      "icon": f"https://cdn.simpleicons.org/telegram/{os.environ['C_TELEGRAM']}",
-     "iconCornerRadius": 10},
+     "iconCornerRadius": 8,
+     "chevron": True},
 
-    {"class": "DepictionButtonView",
-     "action": f"https://reddit.com/user/{rd}",
-     "title": "Reddit",
-     "subtitle": f"u/{rd}",
-     "icon": f"https://cdn.simpleicons.org/reddit/{os.environ['C_REDDIT']}",
-     "iconCornerRadius": 10},
+    {"class": "DepictionTableButtonView",
+     "title": "Instagram",
+     "action": f"https://instagram.com/{ig}",
+     "icon": f"https://cdn.simpleicons.org/instagram/{os.environ['C_INSTAGRAM']}",
+     "iconCornerRadius": 8,
+     "chevron": True},
 
-    {"class": "DepictionButtonView",
-     "action": wb,
-     "title": "Website",
-     "subtitle": wb.replace("https://","").replace("http://",""),
-     "icon": f"https://cdn.simpleicons.org/safari/{os.environ['C_WEBSITE']}",
-     "iconCornerRadius": 10},
+    {"class": "DepictionTableButtonView",
+     "title": "TikTok",
+     "action": f"https://tiktok.com/@{tt}",
+     "icon": f"https://cdn.simpleicons.org/tiktok/{os.environ['C_TIKTOK']}",
+     "iconCornerRadius": 8,
+     "chevron": True},
 ]
 
 views = []
@@ -226,22 +218,24 @@ if header: dep["headerImage"] = header
 print(json.dumps(dep, indent=2, ensure_ascii=False))
 PYEOF
 
-  # ── index.html ──
+  # ═══════════════════════════════════════════════════════════
+  #  index.html  (Web Depiction)
+  # ═══════════════════════════════════════════════════════════
   SHOTS_HTML=""
   for f in "${SHOTS_ARR[@]:-}"; do
     [ -n "$f" ] && SHOTS_HTML+="<img src=\"$REPO_BASE/assets/screenshots/$PKG_ID/$(basename "$f")\" alt=\"screenshot\">"
   done
   [ -z "$SHOTS_HTML" ] && SHOTS_HTML="<div class=\"no-shots\">No screenshots</div>"
 
-  TW_="$TWITTER"; DC_="$DISCORD"; GH_="$GITHUB"; YT_="$YOUTUBE"
-  TG_="$TELEGRAM"; RD_="$REDDIT"; WB_="$WEBSITE"
+  # نفس القيم للـ HTML (يقرأ التخصيص إن وجد)
+  X_="$X_HANDLE"; SN_="$SNAPCHAT"; TG_="$TELEGRAM"; IG_="$INSTAGRAM"; TT_="$TIKTOK"
   if [ -f "$ASSETS_DIR/social/$PKG_ID.json" ]; then
-    for kv in twitter discord github youtube telegram reddit website; do
+    for kv in x snapchat telegram instagram tiktok; do
       v=$(python3 -c "import json;print(json.load(open('$ASSETS_DIR/social/$PKG_ID.json')).get('$kv',''))" 2>/dev/null || true)
       [ -z "$v" ] && continue
       case $kv in
-        twitter) TW_="$v";; discord) DC_="$v";; github) GH_="$v";;
-        youtube) YT_="$v";; telegram) TG_="$v";; reddit) RD_="$v";; website) WB_="$v";;
+        x) X_="$v";; snapchat) SN_="$v";; telegram) TG_="$v";;
+        instagram) IG_="$v";; tiktok) TT_="$v";;
       esac
     done
   fi
@@ -272,10 +266,12 @@ body{font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Segoe UI",Ro
 .row .label{color:rgba(255,255,255,0.6)}
 .row .value{color:#fff;font-weight:600;text-align:right;max-width:62%;word-break:break-word}
 .desc{background:#1c1c1e;border-radius:16px;padding:20px;font-size:15px;line-height:1.7;border:1px solid rgba(255,255,255,0.06);white-space:pre-wrap}
-.social{display:flex;flex-wrap:wrap;justify-content:center;gap:16px;background:#1c1c1e;border-radius:16px;padding:26px 18px;border:1px solid rgba(255,255,255,0.06)}
-.social a{width:46px;height:46px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,0.04);text-decoration:none;transition:transform .2s,background .2s}
-.social a:hover{transform:translateY(-3px);background:rgba(255,255,255,0.1)}
-.social a img{width:26px;height:26px}
+.social{display:flex;flex-direction:column;gap:10px;background:#1c1c1e;border-radius:16px;padding:14px;border:1px solid rgba(255,255,255,0.06)}
+.social a{display:flex;align-items:center;gap:14px;text-decoration:none;color:#fff;padding:12px 14px;border-radius:12px;transition:background .2s;font-size:16px;font-weight:500}
+.social a:hover{background:rgba(255,255,255,0.06)}
+.social a img{width:32px;height:32px;border-radius:8px;flex-shrink:0}
+.social a span{flex:1;text-align:left}
+.social a .arrow{color:rgba(255,255,255,0.35);font-weight:400}
 .cta{display:block;text-align:center;text-decoration:none;background:$DEFAULT_TINT;color:#000;font-weight:700;font-size:16px;padding:17px;border-radius:14px;margin-top:28px}
 .footer{text-align:center;color:rgba(255,255,255,0.25);font-size:12px;margin-top:44px}
 </style></head><body>
@@ -292,13 +288,26 @@ body{font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Segoe UI",Ro
 </div></div>
 <div class="section"><h2>Description</h2><div class="desc">$DESC</div></div>
 <div class="section"><h2>Connect</h2><div class="social">
-<a href="https://twitter.com/$TW_" title="X"><img src="https://cdn.simpleicons.org/x/$C_X"></a>
-<a href="$DC_" title="Discord"><img src="https://cdn.simpleicons.org/discord/$C_DISCORD"></a>
-<a href="https://github.com/$GH_" title="GitHub"><img src="https://cdn.simpleicons.org/github/$C_GITHUB"></a>
-<a href="$YT_" title="YouTube"><img src="https://cdn.simpleicons.org/youtube/$C_YOUTUBE"></a>
-<a href="https://t.me/$TG_" title="Telegram"><img src="https://cdn.simpleicons.org/telegram/$C_TELEGRAM"></a>
-<a href="https://reddit.com/user/$RD_" title="Reddit"><img src="https://cdn.simpleicons.org/reddit/$C_REDDIT"></a>
-<a href="$WB_" title="Website"><img src="https://cdn.simpleicons.org/safari/$C_WEBSITE"></a>
+<a href="https://twitter.com/$X_" target="_blank">
+  <img src="https://cdn.simpleicons.org/x/$C_X" alt="X">
+  <span>X (Twitter)</span><span class="arrow">›</span>
+</a>
+<a href="https://snapchat.com/add/$SN_" target="_blank">
+  <img src="https://cdn.simpleicons.org/snapchat/$C_SNAPCHAT" alt="Snapchat">
+  <span>Snapchat</span><span class="arrow">›</span>
+</a>
+<a href="https://t.me/$TG_" target="_blank">
+  <img src="https://cdn.simpleicons.org/telegram/$C_TELEGRAM" alt="Telegram">
+  <span>Telegram</span><span class="arrow">›</span>
+</a>
+<a href="https://instagram.com/$IG_" target="_blank">
+  <img src="https://cdn.simpleicons.org/instagram/$C_INSTAGRAM" alt="Instagram">
+  <span>Instagram</span><span class="arrow">›</span>
+</a>
+<a href="https://tiktok.com/@$TT_" target="_blank">
+  <img src="https://cdn.simpleicons.org/tiktok/$C_TIKTOK" alt="TikTok">
+  <span>TikTok</span><span class="arrow">›</span>
+</a>
 </div></div>
 <a class="cta" href="$SILEO_URL">Open in Sileo</a>
 <div class="footer">$NAME · $VERSION · $PKG_ID</div>
@@ -313,7 +322,7 @@ echo -e "  ${BG_G}${W} TOTAL ${RESET} ${G}$COUNT${RESET} ${DIM}tweak(s) depicted
 echo ""
 
 # ═══════════════════════════════════════════════════════════════
-#  BUILD PACKAGES  (apt-ftparchive as-is)
+#  BUILD PACKAGES
 # ═══════════════════════════════════════════════════════════════
 echo -e "${C}${BOLD}▸ Building Packages${RESET}"
 apt-ftparchive packages ./debs > Packages

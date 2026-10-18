@@ -66,60 +66,44 @@
           "useBoldText": true
         },
         {
-          "class": "DepictionButtonView",
-          "action": "https://twitter.com/BekEs-505",
+          "class": "DepictionTableButtonView",
           "title": "X (Twitter)",
-          "subtitle": "@BekEs-505",
+          "action": "https://twitter.com/BekEs-505",
           "icon": "https://cdn.simpleicons.org/x/1DA1F2",
-          "iconCornerRadius": 10
+          "iconCornerRadius": 8,
+          "chevron": true
         },
         {
-          "class": "DepictionButtonView",
-          "action": "https://discord.gg/yourserver",
-          "title": "Discord",
-          "subtitle": "Join the server",
-          "icon": "https://cdn.simpleicons.org/discord/5865F2",
-          "iconCornerRadius": 10
+          "class": "DepictionTableButtonView",
+          "title": "Snapchat",
+          "action": "https://snapchat.com/add/BekEs-505",
+          "icon": "https://cdn.simpleicons.org/snapchat/FFCC00",
+          "iconCornerRadius": 8,
+          "chevron": true
         },
         {
-          "class": "DepictionButtonView",
-          "action": "https://github.com/BekEs-505",
-          "title": "GitHub",
-          "subtitle": "github.com/BekEs-505",
-          "icon": "https://cdn.simpleicons.org/github/FFFFFF",
-          "iconCornerRadius": 10
-        },
-        {
-          "class": "DepictionButtonView",
-          "action": "https://youtube.com/@yourchannel",
-          "title": "YouTube",
-          "subtitle": "Watch videos",
-          "icon": "https://cdn.simpleicons.org/youtube/FF0000",
-          "iconCornerRadius": 10
-        },
-        {
-          "class": "DepictionButtonView",
-          "action": "https://t.me/yourchannel",
+          "class": "DepictionTableButtonView",
           "title": "Telegram",
-          "subtitle": "t.me/yourchannel",
+          "action": "https://t.me/BekEs-505",
           "icon": "https://cdn.simpleicons.org/telegram/26A5E4",
-          "iconCornerRadius": 10
+          "iconCornerRadius": 8,
+          "chevron": true
         },
         {
-          "class": "DepictionButtonView",
-          "action": "https://reddit.com/user/BekEs-505",
-          "title": "Reddit",
-          "subtitle": "u/BekEs-505",
-          "icon": "https://cdn.simpleicons.org/reddit/FF4500",
-          "iconCornerRadius": 10
+          "class": "DepictionTableButtonView",
+          "title": "Instagram",
+          "action": "https://instagram.com/BekEs-505",
+          "icon": "https://cdn.simpleicons.org/instagram/E4405F",
+          "iconCornerRadius": 8,
+          "chevron": true
         },
         {
-          "class": "DepictionButtonView",
-          "action": "https://bekes-505.github.io/plus",
-          "title": "Website",
-          "subtitle": "bekes-505.github.io/plus",
-          "icon": "https://cdn.simpleicons.org/safari/5AC8FA",
-          "iconCornerRadius": 10
+          "class": "DepictionTableButtonView",
+          "title": "TikTok",
+          "action": "https://tiktok.com/@BekEs-505",
+          "icon": "https://cdn.simpleicons.org/tiktok/FE2C55",
+          "iconCornerRadius": 8,
+          "chevron": true
         }
       ]
     }
