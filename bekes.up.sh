@@ -46,11 +46,11 @@ ASSETS_DIR="assets"
 DEFAULT_TINT="#5AC8FA"
 
 # يوزراتك (بدون @)
-X_HANDLE="BekEs-505"
-SNAPCHAT="BekEs-505"
-TELEGRAM="BekEs-505"
-INSTAGRAM="BekEs-505"
-TIKTOK="BekEs-505"
+X_HANDLE="B6_7E"
+SNAPCHAT="B6_7E"
+TELEGRAM="B6_7E"
+INSTAGRAM="B6_7E"
+TIKTOK="B6_7E"
 
 # ألوان المنصات الرسمية
 C_X="1DA1F2"          # X أزرق
@@ -182,36 +182,36 @@ details_views += [
     {"class":"DepictionSubheaderView","title":"🇬🇧  English Description","useBoldText":True},
     {"class":"DepictionMarkdownView","markdown":desc_en or "No description."},
     {"class":"DepictionSeparatorView"},
-    {"class":"DepictionMarkdownView","markdown":"*Made with ❤️ by **B6_7E | بيكاس***"},
+    {"class":"DepictionMarkdownView","markdown":"*Made with ❤️ By **B6_7E | بيكاس***"},
 ]
 
 # ── TAB 2: Social Media ──
 social_views = [
     {"class":"DepictionSubheaderView","title":"🌐  Follow & Connect","useBoldText":True},
-    {"class":"DepictionMarkdownView","markdown":"تواصل معي على منصات التواصل الاجتماعي — Follow me on social media."},
+    {"class":"DepictionMarkdownView","markdown":"اضفني على التواصل الاجتماعي تحت — Follow me on social media."},
     {"class":"DepictionSeparatorView"},
     {"class":"DepictionTableButtonView","title":"X (Twitter)",
-     "action":f"https://twitter.com/{x_h}",
+     "action":f"https://twitter.com/B6_7E",
      "icon":f"https://cdn.simpleicons.org/x/{os.environ['C_X']}",
      "iconCornerRadius":8,"chevron":True},
     {"class":"DepictionTableButtonView","title":"Snapchat",
-     "action":f"https://snapchat.com/add/{snap}",
+     "action":f"https://snapchat.com/add/B6_7E",
      "icon":f"https://cdn.simpleicons.org/snapchat/{os.environ['C_SNAPCHAT']}",
      "iconCornerRadius":8,"chevron":True},
     {"class":"DepictionTableButtonView","title":"Telegram",
-     "action":f"https://t.me/{tg}",
+     "action":f"https://t.me/B6_7E",
      "icon":f"https://cdn.simpleicons.org/telegram/{os.environ['C_TELEGRAM']}",
      "iconCornerRadius":8,"chevron":True},
     {"class":"DepictionTableButtonView","title":"Instagram",
-     "action":f"https://instagram.com/{ig}",
+     "action":f"https://instagram.com/B6_7E",
      "icon":f"https://cdn.simpleicons.org/instagram/{os.environ['C_INSTAGRAM']}",
      "iconCornerRadius":8,"chevron":True},
     {"class":"DepictionTableButtonView","title":"TikTok",
-     "action":f"https://tiktok.com/@{tt}",
+     "action":f"https://tiktok.com/@B6_7E",
      "icon":f"https://cdn.simpleicons.org/tiktok/{os.environ['C_TIKTOK']}",
      "iconCornerRadius":8,"chevron":True},
     {"class":"DepictionSeparatorView"},
-    {"class":"DepictionMarkdownView","markdown":"*شكراً لدعمك ❤️  —  Thanks for your support*"},
+    {"class":"DepictionMarkdownView","markdown":"*لبى براطمها ❤️  —  Thanks for your support*"},
 ]
 
 dep = {
