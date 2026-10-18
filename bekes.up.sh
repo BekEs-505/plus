@@ -74,6 +74,26 @@ mkdir -p "$OUTPUT_DIR" "$SHOTS_DIR"
 echo ""
 
 # ═══════════════════════════════════════════════════════════════
+#  AUTO-CREATE assets/screenshots/<pkg-id>/  (الإضافة الوحيدة)
+# ═══════════════════════════════════════════════════════════════
+echo -e "${C}${BOLD}▸ Creating Screenshot Folders${RESET}"
+for deb in "$DEBS_DIR"/*.deb; do
+  [ -e "$deb" ] || continue
+  PKG_ID=$(dpkg-deb -f "$deb" Package 2>/dev/null || true)
+  [ -z "$PKG_ID" ] && continue
+
+  SHOT_DIR="$SHOTS_DIR/$PKG_ID"
+  if [ ! -d "$SHOT_DIR" ]; then
+    mkdir -p "$SHOT_DIR"
+    echo "Drop screenshot files here (1.png, 2.png, ...)" > "$SHOT_DIR/.gitkeep"
+    echo -e "  ${G}+${RESET} ${W}$PKG_ID${RESET} ${DIM}→ assets/screenshots/$PKG_ID/ ${DIM}(created)${RESET}"
+  else
+    echo -e "  ${G}✓${RESET} ${W}$PKG_ID${RESET} ${DIM}→ assets/screenshots/$PKG_ID/ ${DIM}(exists)${RESET}"
+  fi
+done
+echo ""
+
+# ═══════════════════════════════════════════════════════════════
 #  SCREENSHOTS COLLECTOR
 #  الأولوية: depictions/<pkg>/screenshots/ → assets/screenshots/<pkg>/ → default/
 # ═══════════════════════════════════════════════════════════════
