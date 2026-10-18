@@ -18,6 +18,10 @@
           "useBoldText": false
         },
         {
+          "class": "DepictionSpacerView",
+          "spacing": 8
+        },
+        {
           "class": "DepictionSeparatorView"
         },
         {
@@ -70,22 +74,22 @@
         },
         {
           "class": "DepictionMarkdownView",
-          "markdown": "### 🇸🇦 الوصف بالعربية\n\nAn advanced tweak for TikTok by N+Store. Nasser iPA Sideload Store https://na9.me. Tweak preferences can be found in the TikTok settings\n\n---\n\n### 🇬🇧 English Description\n\nAn advanced tweak for TikTok by N+Store. Nasser iPA Sideload Store https://na9.me. Tweak preferences can be found in the TikTok settings"
+          "markdown": "An advanced tweak for TikTok by N+Store. Nasser iPA Sideload Store https://na9.me. Tweak preferences can be found in the TikTok settings"
         },
         {
           "class": "DepictionSeparatorView"
         },
         {
           "class": "DepictionSpacerView",
-          "spacing": 8
+          "spacing": 12
         },
         {
           "class": "DepictionMarkdownView",
-          "markdown": "<div align='center'>\n\n**❤️ Made with love by B6_7E | بيكاس**\n\n</div>"
+          "markdown": "**❤️ Made with love by B6_7E | بيكاس**"
         },
         {
           "class": "DepictionSpacerView",
-          "spacing": 8
+          "spacing": 12
         }
       ]
     },
@@ -94,23 +98,58 @@
       "class": "DepictionStackView",
       "views": [
         {
-          "class": "DepictionSubheaderView",
-          "title": "🌐  Follow & Connect",
+          "class": "DepictionSpacerView",
+          "spacing": 24
+        },
+        {
+          "class": "DepictionHeaderView",
+          "title": "🌐  Connect With Me",
           "useBoldText": true
         },
         {
+          "class": "DepictionSubheaderView",
+          "title": "تواصل معي على منصاتي — Follow me on social media",
+          "useBoldText": false
+        },
+        {
+          "class": "DepictionSpacerView",
+          "spacing": 16
+        },
+        {
           "class": "DepictionMarkdownView",
-          "markdown": "اضفني على التواصل الاجتماعي تحت — Follow me on social media."
+          "markdown": "> **🚀 Stay Updated!**\n>\n> تابعني للحصول على آخر التحديثات والدعم الفني\n>\n> *Follow me for the latest updates & support*"
+        },
+        {
+          "class": "DepictionSpacerView",
+          "spacing": 16
         },
         {
           "class": "DepictionSeparatorView"
+        },
+        {
+          "class": "DepictionSpacerView",
+          "spacing": 12
+        },
+        {
+          "class": "DepictionHeaderView",
+          "title": "📱  Social Platforms",
+          "useBoldText": true
+        },
+        {
+          "class": "DepictionSubheaderView",
+          "title": "اضغط على أي منصة للتواصل — Tap any platform to connect",
+          "useBoldText": false
+        },
+        {
+          "class": "DepictionSpacerView",
+          "spacing": 12
         },
         {
           "class": "DepictionTableButtonView",
           "title": "X (Twitter)",
           "action": "https://twitter.com/B6_7E",
           "icon": "https://cdn.simpleicons.org/x/1DA1F2",
-          "iconCornerRadius": 8,
+          "iconCornerRadius": 10,
           "chevron": true
         },
         {
@@ -118,7 +157,7 @@
           "title": "Snapchat",
           "action": "https://snapchat.com/add/B6_7E",
           "icon": "https://cdn.simpleicons.org/snapchat/FFCC00",
-          "iconCornerRadius": 8,
+          "iconCornerRadius": 10,
           "chevron": true
         },
         {
@@ -126,7 +165,7 @@
           "title": "Telegram",
           "action": "https://t.me/B6_7E",
           "icon": "https://cdn.simpleicons.org/telegram/26A5E4",
-          "iconCornerRadius": 8,
+          "iconCornerRadius": 10,
           "chevron": true
         },
         {
@@ -134,7 +173,7 @@
           "title": "Instagram",
           "action": "https://instagram.com/B6_7E",
           "icon": "https://cdn.simpleicons.org/instagram/E4405F",
-          "iconCornerRadius": 8,
+          "iconCornerRadius": 10,
           "chevron": true
         },
         {
@@ -142,15 +181,27 @@
           "title": "TikTok",
           "action": "https://tiktok.com/@B6_7E",
           "icon": "https://cdn.simpleicons.org/tiktok/FE2C55",
-          "iconCornerRadius": 8,
+          "iconCornerRadius": 10,
           "chevron": true
+        },
+        {
+          "class": "DepictionSpacerView",
+          "spacing": 16
         },
         {
           "class": "DepictionSeparatorView"
         },
         {
+          "class": "DepictionSpacerView",
+          "spacing": 16
+        },
+        {
           "class": "DepictionMarkdownView",
-          "markdown": "*لبى براطمها ❤️  —  Thanks for your support*"
+          "markdown": "**💬  Need help? Reach out on any platform above!**\n\n*يسعدني مساعدتك — شكراً لدعمك ❤️*"
+        },
+        {
+          "class": "DepictionSpacerView",
+          "spacing": 24
         }
       ]
     }

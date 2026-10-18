@@ -45,11 +45,6 @@ OUTPUT_DIR="depictions"
 ASSETS_DIR="assets"
 DEFAULT_TINT="#5AC8FA"
 
-# ── الترجمة التلقائية ──
-AUTO_TRANSLATE=true
-TRANSLATE_TIMEOUT=25
-TRANSLATE_DELAY=1
-
 # يوزراتك (بدون @)
 X_HANDLE="B6_7E"
 SNAPCHAT="B6_7E"
@@ -65,7 +60,7 @@ C_INSTAGRAM="E4405F"; C_TIKTOK="FE2C55"
 #  CHECKS
 # ═══════════════════════════════════════════════════════════════
 echo -e "${C}${BOLD}▸ Checks${RESET}"
-for cmd in dpkg-deb apt-ftparchive python3 git curl; do
+for cmd in dpkg-deb apt-ftparchive python3 git; do
   if ! command -v "$cmd" >/dev/null 2>&1; then
     echo -e "${BG_R}${W} MISSING ${RESET} ${R}$cmd${RESET} — ثبّته أولاً"
     exit 1
@@ -75,29 +70,6 @@ echo -e "  ${G}✓${RESET} كل الأدوات موجودة"
 [ -d "$DEBS_DIR" ] || { echo -e "${R}❌ لا يوجد مجلد $DEBS_DIR/${RESET}"; exit 1; }
 mkdir -p "$OUTPUT_DIR"
 echo ""
-
-# ═══════════════════════════════════════════════════════════════
-#  TRANSLATE FUNCTION
-# ═══════════════════════════════════════════════════════════════
-translate_text() {
-  local text="$1" from="$2" to="$3"
-  [ -z "$text" ] && { printf ''; return 0; }
-  [ "$from" = "$to" ] && { printf '%s' "$text"; return 0; }
-  curl -s --max-time "$TRANSLATE_TIMEOUT" \
-    -A "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15" \
-    -G "https://translate.googleapis.com/translate_a/single" \
-    --data-urlencode "client=gtx" \
-    --data-urlencode "sl=$from" --data-urlencode "tl=$to" \
-    --data-urlencode "dt=t" --data-urlencode "q=$text" 2>/dev/null \
-  | python3 -c "
-import sys, json
-try:
-    d = json.load(sys.stdin)
-    sys.stdout.write(''.join(seg[0] for seg in d[0] if seg and seg[0]))
-except Exception:
-    pass
-" 2>/dev/null || true
-}
 
 # ═══════════════════════════════════════════════════════════════
 #  LOOP
@@ -135,7 +107,7 @@ for deb in "$DEBS_DIR"/*.deb; do
   mkdir -p "$OUT"
 
   # ═══════════════════════════════════════════════════════════
-  #  الوصف + الترجمة التلقائية (عربي أساسي)
+  #  وصف واحد — بدون ترجمة تلقائية
   # ═══════════════════════════════════════════════════════════
   DESC_AR=""; DESC_EN=""
   if [ -f "$ASSETS_DIR/descriptions/$PKG_ID.json" ]; then
@@ -143,27 +115,13 @@ for deb in "$DEBS_DIR"/*.deb; do
     DESC_EN=$(python3 -c "import json;print(json.load(open('$ASSETS_DIR/descriptions/$PKG_ID.json')).get('en',''))" 2>/dev/null || true)
   fi
 
-  if [ "$AUTO_TRANSLATE" = "true" ]; then
-    if [ -n "$DESC_AR" ] && [ -z "$DESC_EN" ]; then
-      echo -e "    ${Y}↻${RESET} ${DIM}AR → EN...${RESET}"
-      T=$(translate_text "$DESC_AR" "ar" "en")
-      [ -n "$T" ] && DESC_EN="$T" || DESC_EN=""
-      sleep "$TRANSLATE_DELAY"
-    elif [ -n "$DESC_EN" ] && [ -z "$DESC_AR" ]; then
-      echo -e "    ${Y}↻${RESET} ${DIM}EN → AR...${RESET}"
-      T=$(translate_text "$DESC_EN" "en" "ar")
-      [ -n "$T" ] && DESC_AR="$T" || DESC_AR=""
-      sleep "$TRANSLATE_DELAY"
-    fi
-  fi
-
-  # احتياط: إذا كلاهما فارغ → استخدم وصف deb في الاثنين
-  if [ -z "$DESC_AR" ] && [ -z "$DESC_EN" ]; then
-    DESC_AR="$DESC"; DESC_EN="$DESC"
-  fi
+  # أولوية: عربي > إنجليزي > وصف deb
+  if   [ -n "$DESC_AR" ]; then DESC_FINAL="$DESC_AR"
+  elif [ -n "$DESC_EN" ]; then DESC_FINAL="$DESC_EN"
+  else DESC_FINAL="$DESC"; fi
 
   export PKG_ID NAME VERSION AUTHOR DESC SECTION ARCH SIZE_H HEADER_URL DEFAULT_TINT
-  export REPO_BASE ASSETS_DIR DESC_AR DESC_EN
+  export REPO_BASE ASSETS_DIR DESC_FINAL
   export X_HANDLE SNAPCHAT TELEGRAM INSTAGRAM TIKTOK
   export C_X C_SNAPCHAT C_TELEGRAM C_INSTAGRAM C_TIKTOK
 
@@ -174,7 +132,7 @@ for deb in "$DEBS_DIR"/*.deb; do
   export SHOTS_LIST
 
   # ═══════════════════════════════════════════════════════════
-  #  depiction.json — تصميم احترافي جدًا
+  #  depiction.json — تصميم احترافي + سوشيال مجنون
   # ═══════════════════════════════════════════════════════════
   python3 > "$OUT/depiction.json" << 'PYEOF'
 import os, json
@@ -184,8 +142,7 @@ author = os.environ["AUTHOR"]
 section, arch, size_h = os.environ["SECTION"], os.environ["ARCH"], os.environ["SIZE_H"]
 header = os.environ["HEADER_URL"]; tint = os.environ["DEFAULT_TINT"]
 assets_dir = os.environ["ASSETS_DIR"]
-desc_ar = os.environ.get("DESC_AR", "").replace("\n ", "\n").strip()
-desc_en = os.environ.get("DESC_EN", "").replace("\n ", "\n").strip()
+desc_final = os.environ.get("DESC_FINAL", "").replace("\n ", "\n").strip()
 
 shot_urls = [l.strip() for l in os.environ.get("SHOTS_LIST","").split("\n") if l.strip()]
 screenshots = [{"url":u,"fullSizeURL":u,"accessibilityText":f"Screenshot {i+1}"}
@@ -204,17 +161,7 @@ ig   = ov.get("instagram", os.environ["INSTAGRAM"])
 tt   = ov.get("tiktok",    os.environ["TIKTOK"])
 
 # ══════════════════════════════════════════════════════════════
-#  وصف مدمج واحد — عربي أولًا ثم إنجليزي
-# ══════════════════════════════════════════════════════════════
-desc_parts = []
-if desc_ar:
-    desc_parts.append(f"### 🇸🇦 الوصف بالعربية\n\n{desc_ar}")
-if desc_en:
-    desc_parts.append(f"### 🇬🇧 English Description\n\n{desc_en}")
-merged_desc = "\n\n---\n\n".join(desc_parts) if desc_parts else "لا يوجد وصف / No description."
-
-# ══════════════════════════════════════════════════════════════
-#  TAB 1 — Details (تصميم احترافي كامل)
+#  TAB 1 — Details
 # ══════════════════════════════════════════════════════════════
 details_views = []
 
@@ -226,74 +173,104 @@ if screenshots:
         "itemSize": "{160, 275.4}",
         "screenshots": screenshots
     })
-    details_views.append({"class": "DepictionSpacerView", "spacing": 10})
+    details_views.append({"class": "DepictionSpacerView", "spacing": 12})
 
-# ② Title block
+# ② Title
 details_views += [
     {"class": "DepictionHeaderView", "title": name, "useBoldText": True},
     {"class": "DepictionSubheaderView",
      "title": f"v{version}  •  {size_h}  •  {section}",
      "useBoldText": False},
+    {"class": "DepictionSpacerView", "spacing": 8},
     {"class": "DepictionSeparatorView"},
 ]
 
-# ③ Information section
+# ③ Information block
 details_views += [
     {"class": "DepictionHeaderView", "title": "📋  Information", "useBoldText": True},
-    {"class": "DepictionTableTextView", "title": "📦  Package",       "text": pkg},
-    {"class": "DepictionTableTextView", "title": "🔢  Version",       "text": version},
-    {"class": "DepictionTableTextView", "title": "💾  Size",          "text": size_h},
-    {"class": "DepictionTableTextView", "title": "🏗️  Architecture",  "text": arch},
-    {"class": "DepictionTableTextView", "title": "🗂️  Section",       "text": section},
-    {"class": "DepictionTableTextView", "title": "👨‍💻  Author",        "text": author},
-    {"class": "DepictionTableTextView", "title": "📱  Compatibility", "text": "iOS 14.0 – iOS 18.x"},
+    {"class": "DepictionTableTextView", "title": "📦  Package",        "text": pkg},
+    {"class": "DepictionTableTextView", "title": "🔢  Version",        "text": version},
+    {"class": "DepictionTableTextView", "title": "💾  Size",           "text": size_h},
+    {"class": "DepictionTableTextView", "title": "🏗️  Architecture",   "text": arch},
+    {"class": "DepictionTableTextView", "title": "🗂️  Section",        "text": section},
+    {"class": "DepictionTableTextView", "title": "👨‍💻  Author",         "text": author},
+    {"class": "DepictionTableTextView", "title": "📱  Compatibility",  "text": "iOS 14.0 – iOS 18.x"},
     {"class": "DepictionSeparatorView"},
 ]
 
-# ④ Description section (وصف واحد مدمج)
+# ④ Description (واحد فقط)
 details_views += [
     {"class": "DepictionHeaderView", "title": "📝  Description", "useBoldText": True},
-    {"class": "DepictionMarkdownView", "markdown": merged_desc},
+    {"class": "DepictionMarkdownView", "markdown": desc_final or "No description provided."},
     {"class": "DepictionSeparatorView"},
-]
-
-# ⑤ Footer
-details_views += [
-    {"class": "DepictionSpacerView", "spacing": 8},
+    {"class": "DepictionSpacerView", "spacing": 12},
     {"class": "DepictionMarkdownView",
-     "markdown": "<div align='center'>\n\n**❤️ Made with love by B6_7E | بيكاس**\n\n</div>"},
-    {"class": "DepictionSpacerView", "spacing": 8},
+     "markdown": "**❤️ Made with love by B6_7E | بيكاس**"},
+    {"class": "DepictionSpacerView", "spacing": 12},
 ]
 
 # ══════════════════════════════════════════════════════════════
-#  TAB 2 — Social Media (بدون تغيير)
+#  TAB 2 — Social Media (تصميم مجنون ✨)
 # ══════════════════════════════════════════════════════════════
 social_views = [
-    {"class": "DepictionSubheaderView", "title": "🌐  Follow & Connect", "useBoldText": True},
-    {"class": "DepictionMarkdownView", "markdown": "اضفني على التواصل الاجتماعي تحت — Follow me on social media."},
+    {"class": "DepictionSpacerView", "spacing": 24},
+
+    # Hero
+    {"class": "DepictionHeaderView", "title": "🌐  Connect With Me", "useBoldText": True},
+    {"class": "DepictionSubheaderView",
+     "title": "تواصل معي على منصاتي — Follow me on social media",
+     "useBoldText": False},
+    {"class": "DepictionSpacerView", "spacing": 16},
+
+    # Highlight card
+    {"class": "DepictionMarkdownView",
+     "markdown": "> **🚀 Stay Updated!**\n>\n> تابعني للحصول على آخر التحديثات والدعم الفني\n>\n> *Follow me for the latest updates & support*"},
+    {"class": "DepictionSpacerView", "spacing": 16},
     {"class": "DepictionSeparatorView"},
-    {"class": "DepictionTableButtonView", "title": "X (Twitter)",
+    {"class": "DepictionSpacerView", "spacing": 12},
+
+    # Section header
+    {"class": "DepictionHeaderView", "title": "📱  Social Platforms", "useBoldText": True},
+    {"class": "DepictionSubheaderView",
+     "title": "اضغط على أي منصة للتواصل — Tap any platform to connect",
+     "useBoldText": False},
+    {"class": "DepictionSpacerView", "spacing": 12},
+
+    # Buttons
+    {"class": "DepictionTableButtonView",
+     "title": "X (Twitter)",
      "action": f"https://twitter.com/{x_h}",
      "icon": f"https://cdn.simpleicons.org/x/{os.environ['C_X']}",
-     "iconCornerRadius": 8, "chevron": True},
-    {"class": "DepictionTableButtonView", "title": "Snapchat",
+     "iconCornerRadius": 10, "chevron": True},
+    {"class": "DepictionTableButtonView",
+     "title": "Snapchat",
      "action": f"https://snapchat.com/add/{snap}",
      "icon": f"https://cdn.simpleicons.org/snapchat/{os.environ['C_SNAPCHAT']}",
-     "iconCornerRadius": 8, "chevron": True},
-    {"class": "DepictionTableButtonView", "title": "Telegram",
+     "iconCornerRadius": 10, "chevron": True},
+    {"class": "DepictionTableButtonView",
+     "title": "Telegram",
      "action": f"https://t.me/{tg}",
      "icon": f"https://cdn.simpleicons.org/telegram/{os.environ['C_TELEGRAM']}",
-     "iconCornerRadius": 8, "chevron": True},
-    {"class": "DepictionTableButtonView", "title": "Instagram",
+     "iconCornerRadius": 10, "chevron": True},
+    {"class": "DepictionTableButtonView",
+     "title": "Instagram",
      "action": f"https://instagram.com/{ig}",
      "icon": f"https://cdn.simpleicons.org/instagram/{os.environ['C_INSTAGRAM']}",
-     "iconCornerRadius": 8, "chevron": True},
-    {"class": "DepictionTableButtonView", "title": "TikTok",
+     "iconCornerRadius": 10, "chevron": True},
+    {"class": "DepictionTableButtonView",
+     "title": "TikTok",
      "action": f"https://tiktok.com/@{tt}",
      "icon": f"https://cdn.simpleicons.org/tiktok/{os.environ['C_TIKTOK']}",
-     "iconCornerRadius": 8, "chevron": True},
+     "iconCornerRadius": 10, "chevron": True},
+
+    {"class": "DepictionSpacerView", "spacing": 16},
     {"class": "DepictionSeparatorView"},
-    {"class": "DepictionMarkdownView", "markdown": "*لبى براطمها ❤️  —  Thanks for your support*"},
+    {"class": "DepictionSpacerView", "spacing": 16},
+
+    # Footer CTA
+    {"class": "DepictionMarkdownView",
+     "markdown": "**💬  Need help? Reach out on any platform above!**\n\n*يسعدني مساعدتك — شكراً لدعمك ❤️*"},
+    {"class": "DepictionSpacerView", "spacing": 24},
 ]
 
 dep = {
@@ -301,7 +278,7 @@ dep = {
     "class": "DepictionTabView",
     "tintColor": tint,
     "tabs": [
-        {"tabname": "Details", "class": "DepictionStackView", "views": details_views},
+        {"tabname": "Details",      "class": "DepictionStackView", "views": details_views},
         {"tabname": "Social Media", "class": "DepictionStackView", "views": social_views},
     ]
 }
@@ -310,7 +287,7 @@ print(json.dumps(dep, indent=2, ensure_ascii=False))
 PYEOF
 
   # ═══════════════════════════════════════════════════════════
-  #  index.html — بدون تغيير (نفس السابق)
+  #  index.html — وصف واحد فقط (بدون ترجمة)
   # ═══════════════════════════════════════════════════════════
   SHOTS_HTML=""
   for f in "${SHOTS_ARR[@]:-}"; do
@@ -356,7 +333,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,"SF Arabic","SF Pro Display","
 .row .label{color:rgba(255,255,255,0.6)}
 .row .value{color:#fff;font-weight:600;text-align:left;direction:ltr;max-width:62%;word-break:break-word}
 .desc{background:#1c1c1e;border-radius:16px;padding:20px;font-size:15px;line-height:1.8;border:1px solid rgba(255,255,255,0.06);white-space:pre-wrap;word-wrap:break-word}
-.desc.en{direction:ltr;text-align:left;font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display",sans-serif}
 .social{display:flex;flex-direction:column;gap:10px;background:#1c1c1e;border-radius:16px;padding:14px;border:1px solid rgba(255,255,255,0.06)}
 .social a{display:flex;align-items:center;gap:14px;text-decoration:none;color:#fff;padding:12px 14px;border-radius:12px;transition:background .2s;font-size:16px;font-weight:500}
 .social a:hover{background:rgba(255,255,255,0.06)}
@@ -378,8 +354,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"SF Arabic","SF Pro Display","
 <div class="row"><span class="label">Architecture</span><span class="value">$ARCH</span></div>
 <div class="row"><span class="label">Size</span><span class="value">$SIZE_H</span></div>
 </div></div>
-<div class="section"><h2>🇸🇦 الوصف بالعربية</h2><div class="desc">$DESC_AR</div></div>
-<div class="section"><h2>🇬🇧 English Description</h2><div class="desc en">$DESC_EN</div></div>
+<div class="section"><h2>📝 Description</h2><div class="desc">$DESC_FINAL</div></div>
 <div class="section"><h2>🌐 Social Media</h2><div class="social">
 <a href="https://twitter.com/$X_" target="_blank"><img src="https://cdn.simpleicons.org/x/$C_X" alt="X"><span class="en">X (Twitter)</span><span class="arrow">‹</span></a>
 <a href="https://snapchat.com/add/$SN_" target="_blank"><img src="https://cdn.simpleicons.org/snapchat/$C_SNAPCHAT" alt="Snapchat"><span class="en">Snapchat</span><span class="arrow">‹</span></a>
