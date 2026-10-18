@@ -14,72 +14,78 @@
         },
         {
           "class": "DepictionSubheaderView",
-          "title": "Version 2.1  •  3.7 MB  •  Tweaks",
+          "title": "v2.1  •  3.7 MB  •  Tweaks",
           "useBoldText": false
         },
         {
           "class": "DepictionSeparatorView"
         },
         {
+          "class": "DepictionHeaderView",
+          "title": "📋  Information",
+          "useBoldText": true
+        },
+        {
           "class": "DepictionTableTextView",
-          "title": "Package",
+          "title": "📦  Package",
           "text": "com.bekes-505.github.io.wolfrootless"
         },
         {
           "class": "DepictionTableTextView",
-          "title": "Version",
+          "title": "🔢  Version",
           "text": "2.1"
         },
         {
           "class": "DepictionTableTextView",
-          "title": "Author",
-          "text": "BekEs - بيكاس"
+          "title": "💾  Size",
+          "text": "3.7 MB"
         },
         {
           "class": "DepictionTableTextView",
-          "title": "Section",
-          "text": "Tweaks"
-        },
-        {
-          "class": "DepictionTableTextView",
-          "title": "Architecture",
+          "title": "🏗️  Architecture",
           "text": "iphoneos-arm64"
         },
         {
           "class": "DepictionTableTextView",
-          "title": "Size",
-          "text": "3.7 MB"
+          "title": "🗂️  Section",
+          "text": "Tweaks"
+        },
+        {
+          "class": "DepictionTableTextView",
+          "title": "👨‍💻  Author",
+          "text": "BekEs - بيكاس"
+        },
+        {
+          "class": "DepictionTableTextView",
+          "title": "📱  Compatibility",
+          "text": "iOS 14.0 – iOS 18.x"
         },
         {
           "class": "DepictionSeparatorView"
         },
         {
-          "class": "DepictionSubheaderView",
-          "title": "🇸🇦  الوصف بالعربية",
+          "class": "DepictionHeaderView",
+          "title": "📝  Description",
           "useBoldText": true
         },
         {
           "class": "DepictionMarkdownView",
-          "markdown": "اداة وظيفتها : فيسبوك بلس حفظ الفيديو والصور ومنع الاعلانات تعطيل انك شفت الخاص تعطيل معرفة انك تكتب، تعطيل انك ما شفت الاستوري، تعطيل التقدم التلقائي في الاستوري"
+          "markdown": "### 🇸🇦 الوصف بالعربية\n\nاداة وظيفتها : فيسبوك بلس حفظ الفيديو والصور ومنع الاعلانات تعطيل انك شفت الخاص تعطيل معرفة انك تكتب، تعطيل انك ما شفت الاستوري، تعطيل التقدم التلقائي في الاستوري\n\n---\n\n### 🇬🇧 English Description\n\nاداة وظيفتها : فيسبوك بلس حفظ الفيديو والصور ومنع الاعلانات تعطيل انك شفت الخاص تعطيل معرفة انك تكتب، تعطيل انك ما شفت الاستوري، تعطيل التقدم التلقائي في الاستوري"
         },
         {
           "class": "DepictionSeparatorView"
         },
         {
-          "class": "DepictionSubheaderView",
-          "title": "🇬🇧  English Description",
-          "useBoldText": true
+          "class": "DepictionSpacerView",
+          "spacing": 8
         },
         {
           "class": "DepictionMarkdownView",
-          "markdown": "اداة وظيفتها : فيسبوك بلس حفظ الفيديو والصور ومنع الاعلانات تعطيل انك شفت الخاص تعطيل معرفة انك تكتب، تعطيل انك ما شفت الاستوري، تعطيل التقدم التلقائي في الاستوري"
+          "markdown": "<div align='center'>\n\n**❤️ Made with love by B6_7E | بيكاس**\n\n</div>"
         },
         {
-          "class": "DepictionSeparatorView"
-        },
-        {
-          "class": "DepictionMarkdownView",
-          "markdown": "*Made with ❤️ By **B6_7E | بيكاس***"
+          "class": "DepictionSpacerView",
+          "spacing": 8
         }
       ]
     },

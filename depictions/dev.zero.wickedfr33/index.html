@@ -31,8 +31,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,"SF Arabic","SF Pro Display","
 .social a .arrow{color:rgba(255,255,255,0.35);font-weight:400;direction:ltr}
 .cta{display:block;text-align:center;text-decoration:none;background:#5AC8FA;color:#000;font-weight:700;font-size:16px;padding:17px;border-radius:14px;margin-top:28px}
 .footer{text-align:center;color:rgba(255,255,255,0.25);font-size:12px;margin-top:44px}
-.tr-btn{background:rgba(90,200,250,0.12);border:1px solid rgba(90,200,250,0.3);color:#5AC8FA;padding:4px 10px;border-radius:8px;font-size:10px;font-weight:600;margin-left:8px;cursor:pointer;text-transform:none;letter-spacing:0}
-.tr-btn:hover{background:rgba(90,200,250,0.22)}
 </style></head><body>
 <div class="hero"><div class="hero-content"><h1>wicked Rootless</h1><p>Version 2.0.3a · 3.7 MB · Tweaks</p></div></div>
 <div class="container">
@@ -45,60 +43,15 @@ body{font-family:-apple-system,BlinkMacSystemFont,"SF Arabic","SF Pro Display","
 <div class="row"><span class="label">Architecture</span><span class="value">iphoneos-arm64</span></div>
 <div class="row"><span class="label">Size</span><span class="value">3.7 MB</span></div>
 </div></div>
-<div class="section"><h2>🇸🇦 الوصف بالعربية <button class="tr-btn" onclick="trTo(this,'d-ar','ar','en')">🌐 EN</button></h2>
-  <div class="desc" id="d-ar">اداة وظيفتها : سناب بلس حفظ ورفع وتخفي في الدردشة وتغير الموقع</div>
-</div>
-<div class="section"><h2>🇬🇧 English Description <button class="tr-btn" onclick="trTo(this,'d-en','en','ar')">🌐 AR</button></h2>
-  <div class="desc en" id="d-en">اداة وظيفتها : سناب بلس حفظ ورفع وتخفي في الدردشة وتغير الموقع</div>
-</div>
+<div class="section"><h2>🇸🇦 الوصف بالعربية</h2><div class="desc">اداة وظيفتها : سناب بلس حفظ ورفع وتخفي في الدردشة وتغير الموقع</div></div>
+<div class="section"><h2>🇬🇧 English Description</h2><div class="desc en">اداة وظيفتها : سناب بلس حفظ ورفع وتخفي في الدردشة وتغير الموقع</div></div>
 <div class="section"><h2>🌐 Social Media</h2><div class="social">
-<a href="https://twitter.com/B6_7E" target="_blank">
-  <img src="https://cdn.simpleicons.org/x/1DA1F2" alt="X">
-  <span class="en">X (Twitter)</span><span class="arrow">‹</span>
-</a>
-<a href="https://snapchat.com/add/B6_7E" target="_blank">
-  <img src="https://cdn.simpleicons.org/snapchat/FFCC00" alt="Snapchat">
-  <span class="en">Snapchat</span><span class="arrow">‹</span>
-</a>
-<a href="https://t.me/B6_7E" target="_blank">
-  <img src="https://cdn.simpleicons.org/telegram/26A5E4" alt="Telegram">
-  <span class="en">Telegram</span><span class="arrow">‹</span>
-</a>
-<a href="https://instagram.com/B6_7E" target="_blank">
-  <img src="https://cdn.simpleicons.org/instagram/E4405F" alt="Instagram">
-  <span class="en">Instagram</span><span class="arrow">‹</span>
-</a>
-<a href="https://tiktok.com/@B6_7E" target="_blank">
-  <img src="https://cdn.simpleicons.org/tiktok/FE2C55" alt="TikTok">
-  <span class="en">TikTok</span><span class="arrow">‹</span>
-</a>
+<a href="https://twitter.com/B6_7E" target="_blank"><img src="https://cdn.simpleicons.org/x/1DA1F2" alt="X"><span class="en">X (Twitter)</span><span class="arrow">‹</span></a>
+<a href="https://snapchat.com/add/B6_7E" target="_blank"><img src="https://cdn.simpleicons.org/snapchat/FFCC00" alt="Snapchat"><span class="en">Snapchat</span><span class="arrow">‹</span></a>
+<a href="https://t.me/B6_7E" target="_blank"><img src="https://cdn.simpleicons.org/telegram/26A5E4" alt="Telegram"><span class="en">Telegram</span><span class="arrow">‹</span></a>
+<a href="https://instagram.com/B6_7E" target="_blank"><img src="https://cdn.simpleicons.org/instagram/E4405F" alt="Instagram"><span class="en">Instagram</span><span class="arrow">‹</span></a>
+<a href="https://tiktok.com/@B6_7E" target="_blank"><img src="https://cdn.simpleicons.org/tiktok/FE2C55" alt="TikTok"><span class="en">TikTok</span><span class="arrow">‹</span></a>
 </div></div>
 <a class="cta" href="sileo://depiction?url=https://bekes-505.github.io/plus/depictions/dev.zero.wickedfr33/depiction.json">Open in Sileo</a>
 <div class="footer">wicked Rootless · 2.0.3a · dev.zero.wickedfr33</div>
-</div>
-<script>
-async function trTo(btn, id, from, to) {
-  const el = document.getElementById(id);
-  if (!el) return;
-  if (el.dataset.orig) {
-    el.textContent = el.dataset.orig;
-    delete el.dataset.orig;
-    btn.textContent = (to === 'en') ? '🌐 EN' : '🌐 AR';
-    return;
-  }
-  el.dataset.orig = el.textContent;
-  el.textContent = '⏳ Translating...';
-  try {
-    const u = 'https://translate.googleapis.com/translate_a/single?client=gtx&sl=' + from + '&tl=' + to + '&dt=t&q=' + encodeURIComponent(el.dataset.orig);
-    const r = await fetch(u);
-    const j = await r.json();
-    el.textContent = j[0].map(s => s[0]).join('');
-    btn.textContent = '↩ Back';
-  } catch (e) {
-    el.textContent = el.dataset.orig;
-    delete el.dataset.orig;
-    btn.textContent = '❌ Failed';
-  }
-}
-</script>
-</body></html>
+</div></body></html>

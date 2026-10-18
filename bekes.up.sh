@@ -45,10 +45,10 @@ OUTPUT_DIR="depictions"
 ASSETS_DIR="assets"
 DEFAULT_TINT="#5AC8FA"
 
-# ── إعدادات الترجمة التلقائية ──
-AUTO_TRANSLATE=true      # true = تشغيل، false = إيقاف
-TRANSLATE_TIMEOUT=25     # ثواني قبل فشل الطلب
-TRANSLATE_DELAY=1        # تأخير بين الطلبات (ثواني) لتجنب الحظر
+# ── الترجمة التلقائية ──
+AUTO_TRANSLATE=true
+TRANSLATE_TIMEOUT=25
+TRANSLATE_DELAY=1
 
 # يوزراتك (بدون @)
 X_HANDLE="B6_7E"
@@ -57,12 +57,9 @@ TELEGRAM="B6_7E"
 INSTAGRAM="B6_7E"
 TIKTOK="B6_7E"
 
-# ألوان المنصات الرسمية
-C_X="1DA1F2"          # X أزرق
-C_SNAPCHAT="FFCC00"   # Snapchat أصفر
-C_TELEGRAM="26A5E4"   # Telegram أزرق فاتح
-C_INSTAGRAM="E4405F"  # Instagram وردي/أحمر
-C_TIKTOK="FE2C55"     # TikTok أحمر
+# ألوان المنصات
+C_X="1DA1F2"; C_SNAPCHAT="FFCC00"; C_TELEGRAM="26A5E4"
+C_INSTAGRAM="E4405F"; C_TIKTOK="FE2C55"
 
 # ═══════════════════════════════════════════════════════════════
 #  CHECKS
@@ -70,7 +67,7 @@ C_TIKTOK="FE2C55"     # TikTok أحمر
 echo -e "${C}${BOLD}▸ Checks${RESET}"
 for cmd in dpkg-deb apt-ftparchive python3 git curl; do
   if ! command -v "$cmd" >/dev/null 2>&1; then
-    echo -e "${BG_R}${W} MISSING ${RESET} ${R}$cmd${RESET} — ثبّته أولاً (apt install apt-utils dpkg python3 git curl)"
+    echo -e "${BG_R}${W} MISSING ${RESET} ${R}$cmd${RESET} — ثبّته أولاً"
     exit 1
   fi
 done
@@ -86,21 +83,17 @@ translate_text() {
   local text="$1" from="$2" to="$3"
   [ -z "$text" ] && { printf ''; return 0; }
   [ "$from" = "$to" ] && { printf '%s' "$text"; return 0; }
-
   curl -s --max-time "$TRANSLATE_TIMEOUT" \
     -A "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15" \
     -G "https://translate.googleapis.com/translate_a/single" \
     --data-urlencode "client=gtx" \
-    --data-urlencode "sl=$from" \
-    --data-urlencode "tl=$to" \
-    --data-urlencode "dt=t" \
-    --data-urlencode "q=$text" 2>/dev/null \
+    --data-urlencode "sl=$from" --data-urlencode "tl=$to" \
+    --data-urlencode "dt=t" --data-urlencode "q=$text" 2>/dev/null \
   | python3 -c "
 import sys, json
 try:
     d = json.load(sys.stdin)
-    out = ''.join(seg[0] for seg in d[0] if seg and seg[0])
-    sys.stdout.write(out)
+    sys.stdout.write(''.join(seg[0] for seg in d[0] if seg and seg[0]))
 except Exception:
     pass
 " 2>/dev/null || true
@@ -113,7 +106,7 @@ echo -e "${C}${BOLD}▸ Generating Depictions${RESET}"
 COUNT=0
 
 for deb in "$DEBS_DIR"/*.deb; do
-  [ -e "$deb" ] || { echo -e "${Y}⚠  لا توجد ملفات .deb في $DEBS_DIR/${RESET}"; exit 0; }
+  [ -e "$deb" ] || { echo -e "${Y}⚠  لا توجد ملفات .deb${RESET}"; exit 0; }
 
   PKG_ID=$(dpkg-deb -f "$deb" Package 2>/dev/null || true)
   [ -z "$PKG_ID" ] && continue
@@ -142,7 +135,7 @@ for deb in "$DEBS_DIR"/*.deb; do
   mkdir -p "$OUT"
 
   # ═══════════════════════════════════════════════════════════
-  #  الوصف + الترجمة التلقائية
+  #  الوصف + الترجمة التلقائية (عربي أساسي)
   # ═══════════════════════════════════════════════════════════
   DESC_AR=""; DESC_EN=""
   if [ -f "$ASSETS_DIR/descriptions/$PKG_ID.json" ]; then
@@ -152,27 +145,22 @@ for deb in "$DEBS_DIR"/*.deb; do
 
   if [ "$AUTO_TRANSLATE" = "true" ]; then
     if [ -n "$DESC_AR" ] && [ -z "$DESC_EN" ]; then
-      echo -e "    ${Y}↻${RESET} ${DIM}Auto-translating AR → EN...${RESET}"
+      echo -e "    ${Y}↻${RESET} ${DIM}AR → EN...${RESET}"
       T=$(translate_text "$DESC_AR" "ar" "en")
-      if [ -n "$T" ]; then DESC_EN="$T"; else
-        DESC_EN="$DESC_AR"
-        echo -e "    ${R}✗${RESET} ${DIM}Translation failed, using AR${RESET}"
-      fi
+      [ -n "$T" ] && DESC_EN="$T" || DESC_EN=""
       sleep "$TRANSLATE_DELAY"
     elif [ -n "$DESC_EN" ] && [ -z "$DESC_AR" ]; then
-      echo -e "    ${Y}↻${RESET} ${DIM}Auto-translating EN → AR...${RESET}"
+      echo -e "    ${Y}↻${RESET} ${DIM}EN → AR...${RESET}"
       T=$(translate_text "$DESC_EN" "en" "ar")
-      if [ -n "$T" ]; then DESC_AR="$T"; else
-        DESC_AR="$DESC_EN"
-        echo -e "    ${R}✗${RESET} ${DIM}Translation failed, using EN${RESET}"
-      fi
+      [ -n "$T" ] && DESC_AR="$T" || DESC_AR=""
       sleep "$TRANSLATE_DELAY"
     fi
   fi
 
-  # احتياط: إذا كلا الوصفين فارغان → استخدم وصف الـ deb
-  [ -z "$DESC_AR" ] && DESC_AR="$DESC"
-  [ -z "$DESC_EN" ] && DESC_EN="$DESC"
+  # احتياط: إذا كلاهما فارغ → استخدم وصف deb في الاثنين
+  if [ -z "$DESC_AR" ] && [ -z "$DESC_EN" ]; then
+    DESC_AR="$DESC"; DESC_EN="$DESC"
+  fi
 
   export PKG_ID NAME VERSION AUTHOR DESC SECTION ARCH SIZE_H HEADER_URL DEFAULT_TINT
   export REPO_BASE ASSETS_DIR DESC_AR DESC_EN
@@ -186,7 +174,7 @@ for deb in "$DEBS_DIR"/*.deb; do
   export SHOTS_LIST
 
   # ═══════════════════════════════════════════════════════════
-  #  depiction.json  (Details + Social Media)
+  #  depiction.json — تصميم احترافي جدًا
   # ═══════════════════════════════════════════════════════════
   python3 > "$OUT/depiction.json" << 'PYEOF'
 import os, json
@@ -215,66 +203,106 @@ tg   = ov.get("telegram",  os.environ["TELEGRAM"])
 ig   = ov.get("instagram", os.environ["INSTAGRAM"])
 tt   = ov.get("tiktok",    os.environ["TIKTOK"])
 
-details_views = []
-if screenshots:
-    details_views.append({"class":"DepictionScreenshotsView","itemCornerRadius":14,
-                          "itemSize":"{160, 275.4}","screenshots":screenshots})
+# ══════════════════════════════════════════════════════════════
+#  وصف مدمج واحد — عربي أولًا ثم إنجليزي
+# ══════════════════════════════════════════════════════════════
+desc_parts = []
+if desc_ar:
+    desc_parts.append(f"### 🇸🇦 الوصف بالعربية\n\n{desc_ar}")
+if desc_en:
+    desc_parts.append(f"### 🇬🇧 English Description\n\n{desc_en}")
+merged_desc = "\n\n---\n\n".join(desc_parts) if desc_parts else "لا يوجد وصف / No description."
 
+# ══════════════════════════════════════════════════════════════
+#  TAB 1 — Details (تصميم احترافي كامل)
+# ══════════════════════════════════════════════════════════════
+details_views = []
+
+# ① Screenshots
+if screenshots:
+    details_views.append({
+        "class": "DepictionScreenshotsView",
+        "itemCornerRadius": 16,
+        "itemSize": "{160, 275.4}",
+        "screenshots": screenshots
+    })
+    details_views.append({"class": "DepictionSpacerView", "spacing": 10})
+
+# ② Title block
 details_views += [
-    {"class":"DepictionHeaderView","title":name,"useBoldText":True},
-    {"class":"DepictionSubheaderView","title":f"Version {version}  •  {size_h}  •  {section}","useBoldText":False},
-    {"class":"DepictionSeparatorView"},
-    {"class":"DepictionTableTextView","title":"Package","text":pkg},
-    {"class":"DepictionTableTextView","title":"Version","text":version},
-    {"class":"DepictionTableTextView","title":"Author","text":author},
-    {"class":"DepictionTableTextView","title":"Section","text":section},
-    {"class":"DepictionTableTextView","title":"Architecture","text":arch},
-    {"class":"DepictionTableTextView","title":"Size","text":size_h},
-    {"class":"DepictionSeparatorView"},
-    {"class":"DepictionSubheaderView","title":"🇸🇦  الوصف بالعربية","useBoldText":True},
-    {"class":"DepictionMarkdownView","markdown":desc_ar or "لا يوجد وصف."},
-    {"class":"DepictionSeparatorView"},
-    {"class":"DepictionSubheaderView","title":"🇬🇧  English Description","useBoldText":True},
-    {"class":"DepictionMarkdownView","markdown":desc_en or "No description."},
-    {"class":"DepictionSeparatorView"},
-    {"class":"DepictionMarkdownView","markdown":"*Made with ❤️ By **B6_7E | بيكاس***"},
+    {"class": "DepictionHeaderView", "title": name, "useBoldText": True},
+    {"class": "DepictionSubheaderView",
+     "title": f"v{version}  •  {size_h}  •  {section}",
+     "useBoldText": False},
+    {"class": "DepictionSeparatorView"},
 ]
 
+# ③ Information section
+details_views += [
+    {"class": "DepictionHeaderView", "title": "📋  Information", "useBoldText": True},
+    {"class": "DepictionTableTextView", "title": "📦  Package",       "text": pkg},
+    {"class": "DepictionTableTextView", "title": "🔢  Version",       "text": version},
+    {"class": "DepictionTableTextView", "title": "💾  Size",          "text": size_h},
+    {"class": "DepictionTableTextView", "title": "🏗️  Architecture",  "text": arch},
+    {"class": "DepictionTableTextView", "title": "🗂️  Section",       "text": section},
+    {"class": "DepictionTableTextView", "title": "👨‍💻  Author",        "text": author},
+    {"class": "DepictionTableTextView", "title": "📱  Compatibility", "text": "iOS 14.0 – iOS 18.x"},
+    {"class": "DepictionSeparatorView"},
+]
+
+# ④ Description section (وصف واحد مدمج)
+details_views += [
+    {"class": "DepictionHeaderView", "title": "📝  Description", "useBoldText": True},
+    {"class": "DepictionMarkdownView", "markdown": merged_desc},
+    {"class": "DepictionSeparatorView"},
+]
+
+# ⑤ Footer
+details_views += [
+    {"class": "DepictionSpacerView", "spacing": 8},
+    {"class": "DepictionMarkdownView",
+     "markdown": "<div align='center'>\n\n**❤️ Made with love by B6_7E | بيكاس**\n\n</div>"},
+    {"class": "DepictionSpacerView", "spacing": 8},
+]
+
+# ══════════════════════════════════════════════════════════════
+#  TAB 2 — Social Media (بدون تغيير)
+# ══════════════════════════════════════════════════════════════
 social_views = [
-    {"class":"DepictionSubheaderView","title":"🌐  Follow & Connect","useBoldText":True},
-    {"class":"DepictionMarkdownView","markdown":"اضفني على التواصل الاجتماعي تحت — Follow me on social media."},
-    {"class":"DepictionSeparatorView"},
-    {"class":"DepictionTableButtonView","title":"X (Twitter)",
-     "action":f"https://twitter.com/{x_h}",
-     "icon":f"https://cdn.simpleicons.org/x/{os.environ['C_X']}",
-     "iconCornerRadius":8,"chevron":True},
-    {"class":"DepictionTableButtonView","title":"Snapchat",
-     "action":f"https://snapchat.com/add/{snap}",
-     "icon":f"https://cdn.simpleicons.org/snapchat/{os.environ['C_SNAPCHAT']}",
-     "iconCornerRadius":8,"chevron":True},
-    {"class":"DepictionTableButtonView","title":"Telegram",
-     "action":f"https://t.me/{tg}",
-     "icon":f"https://cdn.simpleicons.org/telegram/{os.environ['C_TELEGRAM']}",
-     "iconCornerRadius":8,"chevron":True},
-    {"class":"DepictionTableButtonView","title":"Instagram",
-     "action":f"https://instagram.com/{ig}",
-     "icon":f"https://cdn.simpleicons.org/instagram/{os.environ['C_INSTAGRAM']}",
-     "iconCornerRadius":8,"chevron":True},
-    {"class":"DepictionTableButtonView","title":"TikTok",
-     "action":f"https://tiktok.com/@{tt}",
-     "icon":f"https://cdn.simpleicons.org/tiktok/{os.environ['C_TIKTOK']}",
-     "iconCornerRadius":8,"chevron":True},
-    {"class":"DepictionSeparatorView"},
-    {"class":"DepictionMarkdownView","markdown":"*لبى براطمها ❤️  —  Thanks for your support*"},
+    {"class": "DepictionSubheaderView", "title": "🌐  Follow & Connect", "useBoldText": True},
+    {"class": "DepictionMarkdownView", "markdown": "اضفني على التواصل الاجتماعي تحت — Follow me on social media."},
+    {"class": "DepictionSeparatorView"},
+    {"class": "DepictionTableButtonView", "title": "X (Twitter)",
+     "action": f"https://twitter.com/{x_h}",
+     "icon": f"https://cdn.simpleicons.org/x/{os.environ['C_X']}",
+     "iconCornerRadius": 8, "chevron": True},
+    {"class": "DepictionTableButtonView", "title": "Snapchat",
+     "action": f"https://snapchat.com/add/{snap}",
+     "icon": f"https://cdn.simpleicons.org/snapchat/{os.environ['C_SNAPCHAT']}",
+     "iconCornerRadius": 8, "chevron": True},
+    {"class": "DepictionTableButtonView", "title": "Telegram",
+     "action": f"https://t.me/{tg}",
+     "icon": f"https://cdn.simpleicons.org/telegram/{os.environ['C_TELEGRAM']}",
+     "iconCornerRadius": 8, "chevron": True},
+    {"class": "DepictionTableButtonView", "title": "Instagram",
+     "action": f"https://instagram.com/{ig}",
+     "icon": f"https://cdn.simpleicons.org/instagram/{os.environ['C_INSTAGRAM']}",
+     "iconCornerRadius": 8, "chevron": True},
+    {"class": "DepictionTableButtonView", "title": "TikTok",
+     "action": f"https://tiktok.com/@{tt}",
+     "icon": f"https://cdn.simpleicons.org/tiktok/{os.environ['C_TIKTOK']}",
+     "iconCornerRadius": 8, "chevron": True},
+    {"class": "DepictionSeparatorView"},
+    {"class": "DepictionMarkdownView", "markdown": "*لبى براطمها ❤️  —  Thanks for your support*"},
 ]
 
 dep = {
-    "minVersion":"0.1",
-    "class":"DepictionTabView",
-    "tintColor":tint,
-    "tabs":[
-        {"tabname":"Details","class":"DepictionStackView","views":details_views},
-        {"tabname":"Social Media","class":"DepictionStackView","views":social_views},
+    "minVersion": "0.1",
+    "class": "DepictionTabView",
+    "tintColor": tint,
+    "tabs": [
+        {"tabname": "Details", "class": "DepictionStackView", "views": details_views},
+        {"tabname": "Social Media", "class": "DepictionStackView", "views": social_views},
     ]
 }
 if header: dep["headerImage"] = header
@@ -282,7 +310,7 @@ print(json.dumps(dep, indent=2, ensure_ascii=False))
 PYEOF
 
   # ═══════════════════════════════════════════════════════════
-  #  index.html
+  #  index.html — بدون تغيير (نفس السابق)
   # ═══════════════════════════════════════════════════════════
   SHOTS_HTML=""
   for f in "${SHOTS_ARR[@]:-}"; do
@@ -338,8 +366,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,"SF Arabic","SF Pro Display","
 .social a .arrow{color:rgba(255,255,255,0.35);font-weight:400;direction:ltr}
 .cta{display:block;text-align:center;text-decoration:none;background:$DEFAULT_TINT;color:#000;font-weight:700;font-size:16px;padding:17px;border-radius:14px;margin-top:28px}
 .footer{text-align:center;color:rgba(255,255,255,0.25);font-size:12px;margin-top:44px}
-.tr-btn{background:rgba(90,200,250,0.12);border:1px solid rgba(90,200,250,0.3);color:#5AC8FA;padding:4px 10px;border-radius:8px;font-size:10px;font-weight:600;margin-left:8px;cursor:pointer;text-transform:none;letter-spacing:0}
-.tr-btn:hover{background:rgba(90,200,250,0.22)}
 </style></head><body>
 <div class="hero"><div class="hero-content"><h1>$NAME</h1><p>Version $VERSION · $SIZE_H · $SECTION</p></div></div>
 <div class="container">
@@ -352,63 +378,18 @@ body{font-family:-apple-system,BlinkMacSystemFont,"SF Arabic","SF Pro Display","
 <div class="row"><span class="label">Architecture</span><span class="value">$ARCH</span></div>
 <div class="row"><span class="label">Size</span><span class="value">$SIZE_H</span></div>
 </div></div>
-<div class="section"><h2>🇸🇦 الوصف بالعربية <button class="tr-btn" onclick="trTo(this,'d-ar','ar','en')">🌐 EN</button></h2>
-  <div class="desc" id="d-ar">$DESC_AR</div>
-</div>
-<div class="section"><h2>🇬🇧 English Description <button class="tr-btn" onclick="trTo(this,'d-en','en','ar')">🌐 AR</button></h2>
-  <div class="desc en" id="d-en">$DESC_EN</div>
-</div>
+<div class="section"><h2>🇸🇦 الوصف بالعربية</h2><div class="desc">$DESC_AR</div></div>
+<div class="section"><h2>🇬🇧 English Description</h2><div class="desc en">$DESC_EN</div></div>
 <div class="section"><h2>🌐 Social Media</h2><div class="social">
-<a href="https://twitter.com/$X_" target="_blank">
-  <img src="https://cdn.simpleicons.org/x/$C_X" alt="X">
-  <span class="en">X (Twitter)</span><span class="arrow">‹</span>
-</a>
-<a href="https://snapchat.com/add/$SN_" target="_blank">
-  <img src="https://cdn.simpleicons.org/snapchat/$C_SNAPCHAT" alt="Snapchat">
-  <span class="en">Snapchat</span><span class="arrow">‹</span>
-</a>
-<a href="https://t.me/$TG_" target="_blank">
-  <img src="https://cdn.simpleicons.org/telegram/$C_TELEGRAM" alt="Telegram">
-  <span class="en">Telegram</span><span class="arrow">‹</span>
-</a>
-<a href="https://instagram.com/$IG_" target="_blank">
-  <img src="https://cdn.simpleicons.org/instagram/$C_INSTAGRAM" alt="Instagram">
-  <span class="en">Instagram</span><span class="arrow">‹</span>
-</a>
-<a href="https://tiktok.com/@$TT_" target="_blank">
-  <img src="https://cdn.simpleicons.org/tiktok/$C_TIKTOK" alt="TikTok">
-  <span class="en">TikTok</span><span class="arrow">‹</span>
-</a>
+<a href="https://twitter.com/$X_" target="_blank"><img src="https://cdn.simpleicons.org/x/$C_X" alt="X"><span class="en">X (Twitter)</span><span class="arrow">‹</span></a>
+<a href="https://snapchat.com/add/$SN_" target="_blank"><img src="https://cdn.simpleicons.org/snapchat/$C_SNAPCHAT" alt="Snapchat"><span class="en">Snapchat</span><span class="arrow">‹</span></a>
+<a href="https://t.me/$TG_" target="_blank"><img src="https://cdn.simpleicons.org/telegram/$C_TELEGRAM" alt="Telegram"><span class="en">Telegram</span><span class="arrow">‹</span></a>
+<a href="https://instagram.com/$IG_" target="_blank"><img src="https://cdn.simpleicons.org/instagram/$C_INSTAGRAM" alt="Instagram"><span class="en">Instagram</span><span class="arrow">‹</span></a>
+<a href="https://tiktok.com/@$TT_" target="_blank"><img src="https://cdn.simpleicons.org/tiktok/$C_TIKTOK" alt="TikTok"><span class="en">TikTok</span><span class="arrow">‹</span></a>
 </div></div>
 <a class="cta" href="$SILEO_URL">Open in Sileo</a>
 <div class="footer">$NAME · $VERSION · $PKG_ID</div>
-</div>
-<script>
-async function trTo(btn, id, from, to) {
-  const el = document.getElementById(id);
-  if (!el) return;
-  if (el.dataset.orig) {
-    el.textContent = el.dataset.orig;
-    delete el.dataset.orig;
-    btn.textContent = (to === 'en') ? '🌐 EN' : '🌐 AR';
-    return;
-  }
-  el.dataset.orig = el.textContent;
-  el.textContent = '⏳ Translating...';
-  try {
-    const u = 'https://translate.googleapis.com/translate_a/single?client=gtx&sl=' + from + '&tl=' + to + '&dt=t&q=' + encodeURIComponent(el.dataset.orig);
-    const r = await fetch(u);
-    const j = await r.json();
-    el.textContent = j[0].map(s => s[0]).join('');
-    btn.textContent = '↩ Back';
-  } catch (e) {
-    el.textContent = el.dataset.orig;
-    delete el.dataset.orig;
-    btn.textContent = '❌ Failed';
-  }
-}
-</script>
-</body></html>
+</div></body></html>
 HTMLEOF
 
   COUNT=$((COUNT+1))
@@ -423,7 +404,7 @@ echo ""
 # ═══════════════════════════════════════════════════════════════
 echo -e "${C}${BOLD}▸ Building Packages${RESET}"
 apt-ftparchive packages ./debs > Packages
-echo -e "  ${G}✓${RESET} ${W}Packages${RESET} ${DIM}generated by apt-ftparchive${RESET}"
+echo -e "  ${G}✓${RESET} ${W}Packages${RESET} ${DIM}generated${RESET}"
 echo ""
 
 # ═══════════════════════════════════════════════════════════════

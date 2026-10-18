@@ -14,72 +14,78 @@
         },
         {
           "class": "DepictionSubheaderView",
-          "title": "Version 1.4.0  •  2.3 MB  •  Tweaks",
+          "title": "v1.4.0  •  2.3 MB  •  Tweaks",
           "useBoldText": false
         },
         {
           "class": "DepictionSeparatorView"
         },
         {
+          "class": "DepictionHeaderView",
+          "title": "📋  Information",
+          "useBoldText": true
+        },
+        {
           "class": "DepictionTableTextView",
-          "title": "Package",
+          "title": "📦  Package",
           "text": "com.bekes-505.github.io.tgextrarootless"
         },
         {
           "class": "DepictionTableTextView",
-          "title": "Version",
+          "title": "🔢  Version",
           "text": "1.4.0"
         },
         {
           "class": "DepictionTableTextView",
-          "title": "Author",
-          "text": "BekEs - بيكاس"
+          "title": "💾  Size",
+          "text": "2.3 MB"
         },
         {
           "class": "DepictionTableTextView",
-          "title": "Section",
-          "text": "Tweaks"
-        },
-        {
-          "class": "DepictionTableTextView",
-          "title": "Architecture",
+          "title": "🏗️  Architecture",
           "text": "iphoneos-arm64"
         },
         {
           "class": "DepictionTableTextView",
-          "title": "Size",
-          "text": "2.3 MB"
+          "title": "🗂️  Section",
+          "text": "Tweaks"
+        },
+        {
+          "class": "DepictionTableTextView",
+          "title": "👨‍💻  Author",
+          "text": "BekEs - بيكاس"
+        },
+        {
+          "class": "DepictionTableTextView",
+          "title": "📱  Compatibility",
+          "text": "iOS 14.0 – iOS 18.x"
         },
         {
           "class": "DepictionSeparatorView"
         },
         {
-          "class": "DepictionSubheaderView",
-          "title": "🇸🇦  الوصف بالعربية",
+          "class": "DepictionHeaderView",
+          "title": "📝  Description",
           "useBoldText": true
         },
         {
           "class": "DepictionMarkdownView",
-          "markdown": "اداة وظيفتها : تيليقرام بلس حفظ المقاطع حتى لو صاحب القناة مقفل التحميل اخفاء انك شاهدة الرساله ومميزات كثير لتفعيلها اضغط ضغطه مطوله. على اسال سوال في اعدادات التليقرام"
+          "markdown": "### 🇸🇦 الوصف بالعربية\n\nاداة وظيفتها : تيليقرام بلس حفظ المقاطع حتى لو صاحب القناة مقفل التحميل اخفاء انك شاهدة الرساله ومميزات كثير لتفعيلها اضغط ضغطه مطوله. على اسال سوال في اعدادات التليقرام\n\n---\n\n### 🇬🇧 English Description\n\nاداة وظيفتها : تيليقرام بلس حفظ المقاطع حتى لو صاحب القناة مقفل التحميل اخفاء انك شاهدة الرساله ومميزات كثير لتفعيلها اضغط ضغطه مطوله. على اسال سوال في اعدادات التليقرام"
         },
         {
           "class": "DepictionSeparatorView"
         },
         {
-          "class": "DepictionSubheaderView",
-          "title": "🇬🇧  English Description",
-          "useBoldText": true
+          "class": "DepictionSpacerView",
+          "spacing": 8
         },
         {
           "class": "DepictionMarkdownView",
-          "markdown": "اداة وظيفتها : تيليقرام بلس حفظ المقاطع حتى لو صاحب القناة مقفل التحميل اخفاء انك شاهدة الرساله ومميزات كثير لتفعيلها اضغط ضغطه مطوله. على اسال سوال في اعدادات التليقرام"
+          "markdown": "<div align='center'>\n\n**❤️ Made with love by B6_7E | بيكاس**\n\n</div>"
         },
         {
-          "class": "DepictionSeparatorView"
-        },
-        {
-          "class": "DepictionMarkdownView",
-          "markdown": "*Made with ❤️ By **B6_7E | بيكاس***"
+          "class": "DepictionSpacerView",
+          "spacing": 8
         }
       ]
     },
