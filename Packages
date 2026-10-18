@@ -15,6 +15,25 @@ Description: اداة وظيفتها : يودل بلس و نسخ ولصق و ر�
 Name: Jodel EMPROVED Rootless
 Author: BekEs - بيكاس
 
+Package: com.na9.tiktok
+Architecture: iphoneos-arm64
+Version: 1.0
+Section: Tweaks
+Maintainer: Nasser | NoTimeToChill
+Installed-Size: 3812
+Depends: mobilesubstrate
+Filename: ./debs/RootLess_com.na9.tiktok_1.0_iphoneos-arm64.deb
+Size: 1284612
+MD5sum: 39d0490c2c00a7c03a2345fa89b8290f
+SHA1: 1bfac3d1bec0b1ae8aadf6e825968bcd4e09cec8
+SHA256: c0b7fc6d9da34e75d229a49c070e760e6a776f6fc27ecc5b1a2325c585cab486
+SHA512: 311d81c9f672e550834efece46e2f7ca70ebc588fdbe95c03c2c0ffa85b22a3cd0ceb32b8d4e25b385a041c13e21d13f239218d2f0675475003b88d14a1d9602
+Description: An advanced tweak for TikTok by N+Store. Nasser iPA Sideload Store https://na9.me. Tweak preferences can be found in the TikTok settings
+Name: NA9 For TikTok
+Author: Nasser | NoTimeToChill
+Icon: https://raw.githubusercontent.com/nowesr1/NA9TikTok/refs/heads/main/Resources/icon.png
+SileoDepiction: https://raw.githubusercontent.com/nowesr1/NA9TikTok/main/Resources/depiction.json
+
 Package: com.bekes-505.github.io.tgextrarootless
 Architecture: iphoneos-arm64
 Version: 1.4.0
