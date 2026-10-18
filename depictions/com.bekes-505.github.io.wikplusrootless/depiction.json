@@ -8,12 +8,30 @@
       "class": "DepictionStackView",
       "views": [
         {
-          "class": "DepictionMarkdownView",
-          "markdown": "*📷 No screenshots available*"
+          "class": "DepictionScreenshotsView",
+          "itemCornerRadius": 16,
+          "itemSize": "{160, 275.4}",
+          "screenshots": [
+            {
+              "url": "https://bekes-505.github.io/plus/assets/screenshots/com.bekes-505.github.io.wikplusrootless/1.png",
+              "fullSizeURL": "https://bekes-505.github.io/plus/assets/screenshots/com.bekes-505.github.io.wikplusrootless/1.png",
+              "accessibilityText": "Screenshot 1"
+            },
+            {
+              "url": "https://bekes-505.github.io/plus/assets/screenshots/com.bekes-505.github.io.wikplusrootless/2.png",
+              "fullSizeURL": "https://bekes-505.github.io/plus/assets/screenshots/com.bekes-505.github.io.wikplusrootless/2.png",
+              "accessibilityText": "Screenshot 2"
+            },
+            {
+              "url": "https://bekes-505.github.io/plus/assets/screenshots/com.bekes-505.github.io.wikplusrootless/3.png",
+              "fullSizeURL": "https://bekes-505.github.io/plus/assets/screenshots/com.bekes-505.github.io.wikplusrootless/3.png",
+              "accessibilityText": "Screenshot 3"
+            }
+          ]
         },
         {
           "class": "DepictionSpacerView",
-          "spacing": 8
+          "spacing": 12
         },
         {
           "class": "DepictionHeaderView",
