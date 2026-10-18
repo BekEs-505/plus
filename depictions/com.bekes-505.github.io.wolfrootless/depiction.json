@@ -8,6 +8,14 @@
       "class": "DepictionStackView",
       "views": [
         {
+          "class": "DepictionMarkdownView",
+          "markdown": "*📷 No screenshots available*"
+        },
+        {
+          "class": "DepictionSpacerView",
+          "spacing": 8
+        },
+        {
           "class": "DepictionHeaderView",
           "title": "Wolf Rootless",
           "useBoldText": true

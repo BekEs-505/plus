@@ -43,6 +43,8 @@ HEADER_URL="https://raw.githubusercontent.com/BekEs-505/plus/main/header.png"
 DEBS_DIR="debs"
 OUTPUT_DIR="depictions"
 ASSETS_DIR="assets"
+SHOTS_DIR="$ASSETS_DIR/screenshots"
+DEFAULT_SHOTS_DIR="$SHOTS_DIR/default"
 DEFAULT_TINT="#5AC8FA"
 
 # يوزراتك (بدون @)
@@ -68,8 +70,63 @@ for cmd in dpkg-deb apt-ftparchive python3 git; do
 done
 echo -e "  ${G}✓${RESET} كل الأدوات موجودة"
 [ -d "$DEBS_DIR" ] || { echo -e "${R}❌ لا يوجد مجلد $DEBS_DIR/${RESET}"; exit 1; }
-mkdir -p "$OUTPUT_DIR"
+mkdir -p "$OUTPUT_DIR" "$SHOTS_DIR"
 echo ""
+
+# ═══════════════════════════════════════════════════════════════
+#  SCREENSHOTS COLLECTOR
+#  الأولوية: depictions/<pkg>/screenshots/ → assets/screenshots/<pkg>/ → default/
+# ═══════════════════════════════════════════════════════════════
+collect_screenshots() {
+  local pkg="$1"
+  local files=()
+  local source="none"
+
+  # ① depictions/<pkg>/screenshots/
+  local dir1="$OUTPUT_DIR/$pkg/screenshots"
+  if [ -d "$dir1" ]; then
+    while IFS= read -r f; do
+      [ -n "$f" ] && files+=("$f")
+    done < <(
+      find "$dir1" -maxdepth 1 -type f \
+        \( -iname '*.png' -o -iname '*.jpg' -o -iname '*.jpeg' \
+           -o -iname '*.webp' -o -iname '*.heic' \) 2>/dev/null \
+      | sort -t. -k1,1n -k2
+    )
+    [ ${#files[@]} -gt 0 ] && source="depictions"
+  fi
+
+  # ② assets/screenshots/<pkg>/
+  if [ ${#files[@]} -eq 0 ] && [ -d "$SHOTS_DIR/$pkg" ]; then
+    while IFS= read -r f; do
+      [ -n "$f" ] && files+=("$f")
+    done < <(
+      find "$SHOTS_DIR/$pkg" -maxdepth 1 -type f \
+        \( -iname '*.png' -o -iname '*.jpg' -o -iname '*.jpeg' \
+           -o -iname '*.webp' -o -iname '*.heic' \) 2>/dev/null \
+      | sort -t. -k1,1n -k2
+    )
+    [ ${#files[@]} -gt 0 ] && source="assets"
+  fi
+
+  # ③ assets/screenshots/default/
+  if [ ${#files[@]} -eq 0 ] && [ -d "$DEFAULT_SHOTS_DIR" ]; then
+    while IFS= read -r f; do
+      [ -n "$f" ] && files+=("$f")
+    done < <(
+      find "$DEFAULT_SHOTS_DIR" -maxdepth 1 -type f \
+        \( -iname '*.png' -o -iname '*.jpg' -o -iname '*.jpeg' \
+           -o -iname '*.webp' -o -iname '*.heic' \) 2>/dev/null \
+      | sort -t. -k1,1n -k2
+    )
+    [ ${#files[@]} -gt 0 ] && source="default"
+  fi
+
+  echo "SOURCE:$source"
+  for f in "${files[@]:-}"; do
+    [ -n "$f" ] && echo "$f"
+  done
+}
 
 # ═══════════════════════════════════════════════════════════════
 #  LOOP
@@ -95,44 +152,63 @@ for deb in "$DEBS_DIR"/*.deb; do
   elif [ "$SIZE" -ge 1024 ];    then SIZE_H=$(awk "BEGIN{printf \"%.0f KB\",$SIZE/1024}")
   else SIZE_H="${SIZE} B"; fi
 
-  SHOTS_ARR=()
-  if [ -d "$ASSETS_DIR/screenshots/$PKG_ID" ]; then
-    while IFS= read -r f; do [ -n "$f" ] && SHOTS_ARR+=("$f"); done < <(
-      find "$ASSETS_DIR/screenshots/$PKG_ID" -maxdepth 1 -type f \
-        \( -iname '*.png' -o -iname '*.jpg' -o -iname '*.jpeg' \) 2>/dev/null | sort
-    )
-  fi
-
   OUT="$OUTPUT_DIR/$PKG_ID"
   mkdir -p "$OUT"
 
   # ═══════════════════════════════════════════════════════════
-  #  وصف واحد — بدون ترجمة تلقائية
+  #  جمع اللقطات + تحديد المصدر
   # ═══════════════════════════════════════════════════════════
+  SHOTS_ARR=()
+  SHOTS_SOURCE="none"
+  while IFS= read -r line; do
+    if [[ "$line" == SOURCE:* ]]; then
+      SHOTS_SOURCE="${line#SOURCE:}"
+    elif [ -n "$line" ]; then
+      SHOTS_ARR+=("$line")
+    fi
+  done < <(collect_screenshots "$PKG_ID")
+
+  SHOTS_COUNT=${#SHOTS_ARR[@]}
+
+  # بناء روابط الصور حسب المصدر
+  SHOTS_LIST=""
+  if [ "$SHOTS_COUNT" -gt 0 ]; then
+    case "$SHOTS_SOURCE" in
+      depictions)
+        for f in "${SHOTS_ARR[@]}"; do
+          SHOTS_LIST+="$REPO_BASE/depictions/$PKG_ID/screenshots/$(basename "$f")"$'\n'
+        done
+        ;;
+      assets)
+        for f in "${SHOTS_ARR[@]}"; do
+          SHOTS_LIST+="$REPO_BASE/assets/screenshots/$PKG_ID/$(basename "$f")"$'\n'
+        done
+        ;;
+      default)
+        for f in "${SHOTS_ARR[@]}"; do
+          SHOTS_LIST+="$REPO_BASE/assets/screenshots/default/$(basename "$f")"$'\n'
+        done
+        ;;
+    esac
+  fi
+
+  # الوصف
   DESC_AR=""; DESC_EN=""
   if [ -f "$ASSETS_DIR/descriptions/$PKG_ID.json" ]; then
     DESC_AR=$(python3 -c "import json;print(json.load(open('$ASSETS_DIR/descriptions/$PKG_ID.json')).get('ar',''))" 2>/dev/null || true)
     DESC_EN=$(python3 -c "import json;print(json.load(open('$ASSETS_DIR/descriptions/$PKG_ID.json')).get('en',''))" 2>/dev/null || true)
   fi
-
-  # أولوية: عربي > إنجليزي > وصف deb
   if   [ -n "$DESC_AR" ]; then DESC_FINAL="$DESC_AR"
   elif [ -n "$DESC_EN" ]; then DESC_FINAL="$DESC_EN"
   else DESC_FINAL="$DESC"; fi
 
   export PKG_ID NAME VERSION AUTHOR DESC SECTION ARCH SIZE_H HEADER_URL DEFAULT_TINT
-  export REPO_BASE ASSETS_DIR DESC_FINAL
+  export REPO_BASE ASSETS_DIR DESC_FINAL SHOTS_LIST SHOTS_COUNT
   export X_HANDLE SNAPCHAT TELEGRAM INSTAGRAM TIKTOK
   export C_X C_SNAPCHAT C_TELEGRAM C_INSTAGRAM C_TIKTOK
 
-  SHOTS_LIST=""
-  for f in "${SHOTS_ARR[@]:-}"; do
-    [ -n "$f" ] && SHOTS_LIST+="$REPO_BASE/assets/screenshots/$PKG_ID/$(basename "$f")"$'\n'
-  done
-  export SHOTS_LIST
-
   # ═══════════════════════════════════════════════════════════
-  #  depiction.json — تصميم احترافي + سوشيال مجنون
+  #  depiction.json
   # ═══════════════════════════════════════════════════════════
   python3 > "$OUT/depiction.json" << 'PYEOF'
 import os, json
@@ -160,140 +236,109 @@ tg   = ov.get("telegram",  os.environ["TELEGRAM"])
 ig   = ov.get("instagram", os.environ["INSTAGRAM"])
 tt   = ov.get("tiktok",    os.environ["TIKTOK"])
 
-# ══════════════════════════════════════════════════════════════
-#  TAB 1 — Details
-# ══════════════════════════════════════════════════════════════
 details_views = []
-
-# ① Screenshots
 if screenshots:
-    details_views.append({
-        "class": "DepictionScreenshotsView",
-        "itemCornerRadius": 16,
-        "itemSize": "{160, 275.4}",
-        "screenshots": screenshots
-    })
-    details_views.append({"class": "DepictionSpacerView", "spacing": 12})
+    details_views.append({"class":"DepictionScreenshotsView","itemCornerRadius":16,
+                          "itemSize":"{160, 275.4}","screenshots":screenshots})
+    details_views.append({"class":"DepictionSpacerView","spacing":12})
+else:
+    details_views.append({"class":"DepictionMarkdownView",
+                          "markdown":"*📷 No screenshots available*"})
+    details_views.append({"class":"DepictionSpacerView","spacing":8})
 
-# ② Title
 details_views += [
-    {"class": "DepictionHeaderView", "title": name, "useBoldText": True},
-    {"class": "DepictionSubheaderView",
-     "title": f"v{version}  •  {size_h}  •  {section}",
-     "useBoldText": False},
-    {"class": "DepictionSpacerView", "spacing": 8},
-    {"class": "DepictionSeparatorView"},
+    {"class":"DepictionHeaderView","title":name,"useBoldText":True},
+    {"class":"DepictionSubheaderView","title":f"v{version}  •  {size_h}  •  {section}","useBoldText":False},
+    {"class":"DepictionSpacerView","spacing":8},
+    {"class":"DepictionSeparatorView"},
+    {"class":"DepictionHeaderView","title":"📋  Information","useBoldText":True},
+    {"class":"DepictionTableTextView","title":"📦  Package","text":pkg},
+    {"class":"DepictionTableTextView","title":"🔢  Version","text":version},
+    {"class":"DepictionTableTextView","title":"💾  Size","text":size_h},
+    {"class":"DepictionTableTextView","title":"🏗️  Architecture","text":arch},
+    {"class":"DepictionTableTextView","title":"🗂️  Section","text":section},
+    {"class":"DepictionTableTextView","title":"👨‍💻  Author","text":author},
+    {"class":"DepictionTableTextView","title":"📱  Compatibility","text":"iOS 14.0 – iOS 18.x"},
+    {"class":"DepictionSeparatorView"},
+    {"class":"DepictionHeaderView","title":"📝  Description","useBoldText":True},
+    {"class":"DepictionMarkdownView","markdown":desc_final or "No description provided."},
+    {"class":"DepictionSeparatorView"},
+    {"class":"DepictionSpacerView","spacing":12},
+    {"class":"DepictionMarkdownView","markdown":"**❤️ Made with love by B6_7E | بيكاس**"},
+    {"class":"DepictionSpacerView","spacing":12},
 ]
 
-# ③ Information block
-details_views += [
-    {"class": "DepictionHeaderView", "title": "📋  Information", "useBoldText": True},
-    {"class": "DepictionTableTextView", "title": "📦  Package",        "text": pkg},
-    {"class": "DepictionTableTextView", "title": "🔢  Version",        "text": version},
-    {"class": "DepictionTableTextView", "title": "💾  Size",           "text": size_h},
-    {"class": "DepictionTableTextView", "title": "🏗️  Architecture",   "text": arch},
-    {"class": "DepictionTableTextView", "title": "🗂️  Section",        "text": section},
-    {"class": "DepictionTableTextView", "title": "👨‍💻  Author",         "text": author},
-    {"class": "DepictionTableTextView", "title": "📱  Compatibility",  "text": "iOS 14.0 – iOS 18.x"},
-    {"class": "DepictionSeparatorView"},
-]
-
-# ④ Description (واحد فقط)
-details_views += [
-    {"class": "DepictionHeaderView", "title": "📝  Description", "useBoldText": True},
-    {"class": "DepictionMarkdownView", "markdown": desc_final or "No description provided."},
-    {"class": "DepictionSeparatorView"},
-    {"class": "DepictionSpacerView", "spacing": 12},
-    {"class": "DepictionMarkdownView",
-     "markdown": "**❤️ Made with love by B6_7E | بيكاس**"},
-    {"class": "DepictionSpacerView", "spacing": 12},
-]
-
-# ══════════════════════════════════════════════════════════════
-#  TAB 2 — Social Media (تصميم مجنون ✨)
-# ══════════════════════════════════════════════════════════════
 social_views = [
-    {"class": "DepictionSpacerView", "spacing": 24},
-
-    # Hero
-    {"class": "DepictionHeaderView", "title": "🌐  Connect With Me", "useBoldText": True},
-    {"class": "DepictionSubheaderView",
-     "title": "تواصل معي على منصاتي — Follow me on social media",
-     "useBoldText": False},
-    {"class": "DepictionSpacerView", "spacing": 16},
-
-    # Highlight card
-    {"class": "DepictionMarkdownView",
-     "markdown": "> **🚀 Stay Updated!**\n>\n> تابعني للحصول على آخر التحديثات والدعم الفني\n>\n> *Follow me for the latest updates & support*"},
-    {"class": "DepictionSpacerView", "spacing": 16},
-    {"class": "DepictionSeparatorView"},
-    {"class": "DepictionSpacerView", "spacing": 12},
-
-    # Section header
-    {"class": "DepictionHeaderView", "title": "📱  Social Platforms", "useBoldText": True},
-    {"class": "DepictionSubheaderView",
-     "title": "اضغط على أي منصة للتواصل — Tap any platform to connect",
-     "useBoldText": False},
-    {"class": "DepictionSpacerView", "spacing": 12},
-
-    # Buttons
-    {"class": "DepictionTableButtonView",
-     "title": "X (Twitter)",
-     "action": f"https://twitter.com/{x_h}",
-     "icon": f"https://cdn.simpleicons.org/x/{os.environ['C_X']}",
-     "iconCornerRadius": 10, "chevron": True},
-    {"class": "DepictionTableButtonView",
-     "title": "Snapchat",
-     "action": f"https://snapchat.com/add/{snap}",
-     "icon": f"https://cdn.simpleicons.org/snapchat/{os.environ['C_SNAPCHAT']}",
-     "iconCornerRadius": 10, "chevron": True},
-    {"class": "DepictionTableButtonView",
-     "title": "Telegram",
-     "action": f"https://t.me/{tg}",
-     "icon": f"https://cdn.simpleicons.org/telegram/{os.environ['C_TELEGRAM']}",
-     "iconCornerRadius": 10, "chevron": True},
-    {"class": "DepictionTableButtonView",
-     "title": "Instagram",
-     "action": f"https://instagram.com/{ig}",
-     "icon": f"https://cdn.simpleicons.org/instagram/{os.environ['C_INSTAGRAM']}",
-     "iconCornerRadius": 10, "chevron": True},
-    {"class": "DepictionTableButtonView",
-     "title": "TikTok",
-     "action": f"https://tiktok.com/@{tt}",
-     "icon": f"https://cdn.simpleicons.org/tiktok/{os.environ['C_TIKTOK']}",
-     "iconCornerRadius": 10, "chevron": True},
-
-    {"class": "DepictionSpacerView", "spacing": 16},
-    {"class": "DepictionSeparatorView"},
-    {"class": "DepictionSpacerView", "spacing": 16},
-
-    # Footer CTA
-    {"class": "DepictionMarkdownView",
-     "markdown": "**💬  Need help? Reach out on any platform above!**\n\n*يسعدني مساعدتك — شكراً لدعمك ❤️*"},
-    {"class": "DepictionSpacerView", "spacing": 24},
+    {"class":"DepictionSpacerView","spacing":24},
+    {"class":"DepictionHeaderView","title":"🌐  Connect With Me","useBoldText":True},
+    {"class":"DepictionSubheaderView","title":"تواصل معي على منصاتي — Follow me on social media","useBoldText":False},
+    {"class":"DepictionSpacerView","spacing":16},
+    {"class":"DepictionMarkdownView",
+     "markdown":"> **🚀 Stay Updated!**\n>\n> تابعني للحصول على آخر التحديثات والدعم الفني\n>\n> *Follow me for the latest updates & support*"},
+    {"class":"DepictionSpacerView","spacing":16},
+    {"class":"DepictionSeparatorView"},
+    {"class":"DepictionSpacerView","spacing":12},
+    {"class":"DepictionHeaderView","title":"📱  Social Platforms","useBoldText":True},
+    {"class":"DepictionSubheaderView","title":"اضغط على أي منصة للتواصل — Tap any platform to connect","useBoldText":False},
+    {"class":"DepictionSpacerView","spacing":12},
+    {"class":"DepictionTableButtonView","title":"X (Twitter)",
+     "action":f"https://twitter.com/{x_h}",
+     "icon":f"https://cdn.simpleicons.org/x/{os.environ['C_X']}",
+     "iconCornerRadius":10,"chevron":True},
+    {"class":"DepictionTableButtonView","title":"Snapchat",
+     "action":f"https://snapchat.com/add/{snap}",
+     "icon":f"https://cdn.simpleicons.org/snapchat/{os.environ['C_SNAPCHAT']}",
+     "iconCornerRadius":10,"chevron":True},
+    {"class":"DepictionTableButtonView","title":"Telegram",
+     "action":f"https://t.me/{tg}",
+     "icon":f"https://cdn.simpleicons.org/telegram/{os.environ['C_TELEGRAM']}",
+     "iconCornerRadius":10,"chevron":True},
+    {"class":"DepictionTableButtonView","title":"Instagram",
+     "action":f"https://instagram.com/{ig}",
+     "icon":f"https://cdn.simpleicons.org/instagram/{os.environ['C_INSTAGRAM']}",
+     "iconCornerRadius":10,"chevron":True},
+    {"class":"DepictionTableButtonView","title":"TikTok",
+     "action":f"https://tiktok.com/@{tt}",
+     "icon":f"https://cdn.simpleicons.org/tiktok/{os.environ['C_TIKTOK']}",
+     "iconCornerRadius":10,"chevron":True},
+    {"class":"DepictionSpacerView","spacing":16},
+    {"class":"DepictionSeparatorView"},
+    {"class":"DepictionSpacerView","spacing":16},
+    {"class":"DepictionMarkdownView",
+     "markdown":"**💬  Need help? Reach out on any platform above!**\n\n*يسعدني مساعدتك — شكراً لدعمك ❤️*"},
+    {"class":"DepictionSpacerView","spacing":24},
 ]
 
-dep = {
-    "minVersion": "0.1",
-    "class": "DepictionTabView",
-    "tintColor": tint,
-    "tabs": [
-        {"tabname": "Details",      "class": "DepictionStackView", "views": details_views},
-        {"tabname": "Social Media", "class": "DepictionStackView", "views": social_views},
-    ]
-}
+dep = {"minVersion":"0.1","class":"DepictionTabView","tintColor":tint,
+       "tabs":[
+         {"tabname":"Details","class":"DepictionStackView","views":details_views},
+         {"tabname":"Social Media","class":"DepictionStackView","views":social_views},
+       ]}
 if header: dep["headerImage"] = header
 print(json.dumps(dep, indent=2, ensure_ascii=False))
 PYEOF
 
   # ═══════════════════════════════════════════════════════════
-  #  index.html — وصف واحد فقط (بدون ترجمة)
+  #  index.html
   # ═══════════════════════════════════════════════════════════
   SHOTS_HTML=""
-  for f in "${SHOTS_ARR[@]:-}"; do
-    [ -n "$f" ] && SHOTS_HTML+="<img src=\"$REPO_BASE/assets/screenshots/$PKG_ID/$(basename "$f")\" alt=\"screenshot\">"
-  done
-  [ -z "$SHOTS_HTML" ] && SHOTS_HTML="<div class=\"no-shots\">No screenshots</div>"
+  if [ "$SHOTS_COUNT" -gt 0 ]; then
+    case "$SHOTS_SOURCE" in
+      depictions)
+        for f in "${SHOTS_ARR[@]}"; do
+          SHOTS_HTML+="<img src=\"$REPO_BASE/depictions/$PKG_ID/screenshots/$(basename "$f")\" alt=\"screenshot\">"
+        done ;;
+      assets)
+        for f in "${SHOTS_ARR[@]}"; do
+          SHOTS_HTML+="<img src=\"$REPO_BASE/assets/screenshots/$PKG_ID/$(basename "$f")\" alt=\"screenshot\">"
+        done ;;
+      default)
+        for f in "${SHOTS_ARR[@]}"; do
+          SHOTS_HTML+="<img src=\"$REPO_BASE/assets/screenshots/default/$(basename "$f")\" alt=\"screenshot\">"
+        done ;;
+    esac
+  fi
+  [ -z "$SHOTS_HTML" ] && SHOTS_HTML="<div class=\"no-shots\">📷 No screenshots available</div>"
 
   X_="$X_HANDLE"; SN_="$SNAPCHAT"; TG_="$TELEGRAM"; IG_="$INSTAGRAM"; TT_="$TIKTOK"
   if [ -f "$ASSETS_DIR/social/$PKG_ID.json" ]; then
@@ -368,7 +413,12 @@ body{font-family:-apple-system,BlinkMacSystemFont,"SF Arabic","SF Pro Display","
 HTMLEOF
 
   COUNT=$((COUNT+1))
-  echo -e "  ${G}✓${RESET} ${W}$PKG_ID${RESET} ${DIM}→${RESET} ${C}$OUT/${RESET}"
+  case "$SHOTS_SOURCE" in
+    depictions) echo -e "  ${G}✓${RESET} ${W}$PKG_ID${RESET} ${DIM}→${RESET} ${C}$OUT/${RESET} ${G}(📸 ${SHOTS_COUNT} in depictions)${RESET}" ;;
+    assets)     echo -e "  ${G}✓${RESET} ${W}$PKG_ID${RESET} ${DIM}→${RESET} ${C}$OUT/${RESET} ${B}(📸 ${SHOTS_COUNT} in assets)${RESET}" ;;
+    default)    echo -e "  ${G}✓${RESET} ${W}$PKG_ID${RESET} ${DIM}→${RESET} ${C}$OUT/${RESET} ${Y}(📸 ${SHOTS_COUNT} default)${RESET}" ;;
+    *)          echo -e "  ${G}✓${RESET} ${W}$PKG_ID${RESET} ${DIM}→${RESET} ${C}$OUT/${RESET} ${Y}(📷 none)${RESET}" ;;
+  esac
 done
 
 echo -e "  ${BG_G}${W} TOTAL ${RESET} ${G}$COUNT${RESET} ${DIM}tweak(s) depicted${RESET}"
